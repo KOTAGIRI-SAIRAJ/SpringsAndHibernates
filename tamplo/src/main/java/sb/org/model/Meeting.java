@@ -17,9 +17,30 @@ public class Meeting {
     @Column
     private String meeting_title;
 
-    /*@ManyToMany(mappedBy = "employee")
-    private List<Employee> employeeList = new ArrayList<Employee>();*/
-
     @ManyToMany(mappedBy = "meetings")
     private List<Employee> employees = new ArrayList<Employee>();
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getMeeting_title() {
+        return meeting_title;
+    }
+
+    public void setMeeting_title(String meeting_title) {
+        this.meeting_title = meeting_title;
+    }
+
+    public List<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(List<Employee> employees) {
+        this.employees = employees;
+    }
 }

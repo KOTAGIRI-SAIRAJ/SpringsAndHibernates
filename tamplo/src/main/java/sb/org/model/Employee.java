@@ -30,9 +30,6 @@ public class Employee {
     @Column
     private String telephone;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "access_card_id")
-    private AccessCard accessCard;
 
     @OneToMany(mappedBy="employee")
     private Set<Task> tasks;
@@ -45,4 +42,60 @@ public class Employee {
             inverseJoinColumns = { @JoinColumn(name = "meeting_id") }
     )
     List<Meeting> meetings= new ArrayList<Meeting>();
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Integer getSalary() {
+        return salary;
+    }
+
+    public void setSalary(Integer salary) {
+        this.salary = salary;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
+
+    public Set<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(Set<Task> tasks) {
+        this.tasks = tasks;
+    }
+
+    public List<Meeting> getMeetings() {
+        return meetings;
+    }
+
+    public void setMeetings(List<Meeting> meetings) {
+        this.meetings = meetings;
+    }
 }
