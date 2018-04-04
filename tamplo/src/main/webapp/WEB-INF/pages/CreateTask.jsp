@@ -18,48 +18,23 @@
         </table>    
     </h3>
         <h1>${FormName} Employee</h1>
-    <form:form action="saveEmployee" method="post" modelAttribute="employee">
+    <form:form action="saveTask" method="post" modelAttribute="task">
                 <table>
                     <form:hidden path="id"/>
                     <tr>
-                        <td>Name:</td>
-                        <td><form:input path="name" /></td>
+                        <td>Task Description:</td>
+                        <td><form:input path="task_desc" /></td>
                     </tr>
                     <tr>
-                        <td>Email:</td>
-                        <td><form:input path="email" /></td>
+                        <td>Task Priority:</td>
+                        <td><form:input path="task_priority" /></td>
                     </tr>
-        <tr>
-                        <td>Salary:</td>
-                        <td><form:input path="salary" /></td>
-                    </tr>
-
-                    <tr>
-                        <td>Telephone:</td>
-                        <td><form:input path="telephone" /></td>
-                    </tr>
-        <tr>
-                <td>Department:</td>
-                <td><form:input path="department" /></td>
-        </tr>
-        <tr>
-             <td>AccessCard Details:</td>
-             
-        </tr>
-        <tr>
-            <tr>
-            <td>Card Holder Name</td>
-            <td><form:input path="accessCard.card_holder_name" /></td>
-            </tr>
-        <tr>
-            <td>Department</td>
-            <td><form:input path="accessCard.department" /></td>
-        </tr>
-        <tr>
-            <td>Organisation</td>
-            <td><form:input path="accessCard.organization" /></td>
-        </tr>
-        </tr>
+                    <tr>
+                        <td>Employee: </td>
+                        <td>
+                            <form:select items="${employees}"  itemLabel="name" itemValue="id" path="employee.id"></form:select>
+                        </td>
+                    </tr>
                     <tr>
                         <td colspan="2" align="center"><input type="submit" value="Save"></td>
                     </tr>

@@ -15,4 +15,6 @@ public interface TaskDAO {
     public Task updateTask(Task task);
 
     public Task getTask(int taskId);
+
+    /*public List<Task> getTaskById(int employeeId);*/
 }

@@ -23,7 +23,6 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
     @Override
     public List<Employee> getAllEmployees() {
-        /*.add( Restrictions.like("name", "s%"))*/
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Employee.class);
         criteria.setMaxResults(10)
                 .addOrder( Order.desc("name") );

@@ -4,9 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "employee")
@@ -30,12 +28,18 @@ public class Employee {
     @Column
     private String telephone;
 
+    @Column
+    private String department;
 
-    @OneToMany(mappedBy="employee")
-    private Set<Task> tasks;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "access_card_id")
+    private AccessCard accessCard;
+
+    @OneToMany(mappedBy="employee",cascade=CascadeType.ALL)
+    private List<Task> tasks;
 
 
-    @ManyToMany(cascade = { CascadeType.ALL })
+    @ManyToMany(targetEntity = sb.org.model.Meeting.class,cascade = { CascadeType.ALL })
     @JoinTable(
             name = "Employee_Meeting",
             joinColumns = { @JoinColumn(name = "employee_id") },
@@ -83,19 +87,31 @@ public class Employee {
         this.telephone = telephone;
     }
 
-    public Set<Task> getTasks() {
-        return tasks;
-    }
-
-    public void setTasks(Set<Task> tasks) {
-        this.tasks = tasks;
-    }
-
     public List<Meeting> getMeetings() {
         return meetings;
     }
 
     public void setMeetings(List<Meeting> meetings) {
         this.meetings = meetings;
+    }
+
+    public String getDepartment() {  return department;  }
+
+    public void setDepartment(String department) {  this.department = department;   }
+
+    public AccessCard getAccessCard() {
+        return accessCard;
+    }
+
+    public void setAccessCard(AccessCard accessCard) {
+        this.accessCard = accessCard;
+    }
+
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
     }
 }

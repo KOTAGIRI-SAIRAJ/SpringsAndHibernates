@@ -1,5 +1,6 @@
 package sb.org.service;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,7 +37,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     @Transactional
     public Employee getEmployee(int employeeId) {
-        return employeeDAO.getEmployee(employeeId);
+        Employee employee = employeeDAO.getEmployee(employeeId);
+        Hibernate.initialize(employee.getTasks());
+        return employee;
     }
 
     @Override

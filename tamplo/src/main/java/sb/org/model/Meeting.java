@@ -2,9 +2,7 @@ package sb.org.model;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "meeting")
@@ -16,6 +14,13 @@ public class Meeting {
 
     @Column
     private String meeting_title;
+
+    @Column
+    private int meeting_dur;
+
+    @Column
+    private int name;
+
 
     @ManyToMany(mappedBy = "meetings")
     private List<Employee> employees = new ArrayList<Employee>();
@@ -42,5 +47,21 @@ public class Meeting {
 
     public void setEmployees(List<Employee> employees) {
         this.employees = employees;
+    }
+
+    public int getMeeting_dur() {
+        return meeting_dur;
+    }
+
+    public void setMeeting_dur(int meeting_dur) {
+        this.meeting_dur = meeting_dur;
+    }
+
+    public int getName() {
+        return name;
+    }
+
+    public void setName(int name) {
+        this.name = name;
     }
 }

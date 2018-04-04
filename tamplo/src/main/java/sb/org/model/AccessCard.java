@@ -16,9 +16,12 @@ public class AccessCard {
     @Column
     private String department;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @Column
+    private String organization;
+
+    /*@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "employee_id")
-    private Employee employee;
+    private Employee employee;*/
 
     public int getId() {
         return id;
@@ -44,4 +47,20 @@ public class AccessCard {
         this.department = department;
     }
 
+    /*public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }*/
+
+
+    public String getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(String organization) {
+        this.organization = organization;
+    }
 }

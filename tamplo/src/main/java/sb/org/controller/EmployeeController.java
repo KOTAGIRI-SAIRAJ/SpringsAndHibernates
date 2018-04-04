@@ -9,20 +9,23 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import sb.org.model.Employee;
 import sb.org.model.Task;
+import sb.org.service.AccessCardService;
 import sb.org.service.EmployeeService;
 import sb.org.service.TaskService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class EmployeeController {
 
     @Autowired
      private EmployeeService employeeService;
+
+    @Autowired
+    private AccessCardService accessCardService;
 
     private static final Logger logger = Logger
             .getLogger(EmployeeController.class);

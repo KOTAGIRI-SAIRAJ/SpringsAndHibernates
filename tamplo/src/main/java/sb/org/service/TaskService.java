@@ -15,4 +15,6 @@ public interface TaskService {
     public Task getTask(int taskId);
 
     public Task updateTask(Task task);
+
+    /*public List<Task> getTaskById(int employeeId);*/
 }

@@ -40,4 +40,10 @@ public class AccessCardServiceImpl implements AccessCardService {
     public AccessCard updateAccessCard(AccessCard accessCard) {
         return accessCardDAO.updateAccessCard(accessCard);
     }
+
+    @Override
+    public void getEmployeeId(Integer employeeId) {
+        System.out.println("getEmployeeId() method Called");
+        accessCardDAO.getEmployeeId(employeeId);
+    }
 }

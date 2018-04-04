@@ -15,4 +15,6 @@ public interface AccessCardDAO {
     public AccessCard getAccessCard(int accessCardId);
 
     public AccessCard updateAccessCard(AccessCard accessCard);
+
+    public void getEmployeeId(Integer employeeId);
 }
