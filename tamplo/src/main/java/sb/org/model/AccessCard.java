@@ -19,6 +19,18 @@ public class AccessCard {
     @Column
     private String organization;
 
+    /*@OneToOne
+    @PrimaryKeyJoinColumn
+    private Employee employee;
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }*/
+
     /*@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "employee_id")
     private Employee employee;*/

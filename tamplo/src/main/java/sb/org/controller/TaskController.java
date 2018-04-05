@@ -75,8 +75,6 @@ public class TaskController {
     public ModelAndView editTask(HttpServletRequest request) {
         int taskId = Integer.parseInt(request.getParameter("id"));
         Task task = taskService.getTask(taskId);
-        AccessCard accessCard = task.getEmployee().getAccessCard();
-        System.out.println("Employee Name "+accessCard.getOrganization());
         List<Employee> employees= employeeService.getAllEmployees();
         ModelAndView model = new ModelAndView("CreateTask");
         model.addObject("task", task);
@@ -88,6 +86,9 @@ public class TaskController {
     @RequestMapping(value = "/deleteTask", method = RequestMethod.GET)
     public ModelAndView deleteTask(HttpServletRequest request) {
         int taskId = Integer.parseInt(request.getParameter("id"));
+        /*Task task = taskService.getTask(taskId);
+        task.setEmployee(null);
+        taskService.updateTask(task);*/
         taskService.deleteTask(taskId);
         return new ModelAndView("redirect:/allTasks");
     }

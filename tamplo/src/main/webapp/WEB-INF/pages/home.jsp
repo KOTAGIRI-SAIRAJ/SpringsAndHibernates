@@ -4,36 +4,28 @@
  
 <html>
 <head>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Employee Management Screen</title>
 </head>
 <body>
     <div align="center">
-            <h1>Employee Management System</h1>
-    <h3>
-        <table border="1"> 
-            <th><a href="allEmployees">Employees</a></th>
-            <th><a href="allTasks">Tasks</a></th>
-            <th><a href="allMeetings">Meetings</a></th>
-            <th><a href="allAccessCards">Access Cards</a></th>
-        </table>    
-    </h3>
-    <%--<nav class="navbar navbar-inverse">
+    <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">WebSiteName</a>
+                <a class="navbar-brand">Employee Management System</a>
             </div>
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="#">Page 1</a></li>
-                <li><a href="#">Page 2</a></li>
-                <li><a href="#">Page 3</a></li>
+                <li class="active"><a href="/">Home</a></li>
+                <li><a href="allEmployees">Employees</a></li>
+                <li><a href="allTasks">Tasks</a></li>
+                <li><a href="allMeetings">Meetings</a></li>
+                <li><a href="allAccessCards">Access Cards</a></li>
             </ul>
         </div>
-    </nav>--%>
+    </nav>
         </div>
 </body>
 </html>

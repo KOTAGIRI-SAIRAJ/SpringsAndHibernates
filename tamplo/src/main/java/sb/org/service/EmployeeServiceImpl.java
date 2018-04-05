@@ -38,7 +38,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Transactional
     public Employee getEmployee(int employeeId) {
         Employee employee = employeeDAO.getEmployee(employeeId);
-        Hibernate.initialize(employee.getTasks());
+        /*Hibernate.initialize(employee.getTasks());*/
         return employee;
     }
 

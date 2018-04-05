@@ -3,68 +3,71 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>New/Edit Contact</title>
+    <title>New/Edit Employee</title>
 </head>
 <body>
     <div align="center">
-    <h3>
-        <table border="1"> 
-            <th><a href="/">Home</a></th>
-            <th><a href="allEmployees">View Employees</a></th>
-        </table>    
-    </h3>
-        <h1>${FormName} Employee</h1>
-    <form:form action="saveEmployee" method="post" modelAttribute="employee">
-                <table>
-                    <form:hidden path="id"/>
-                    <tr>
-                        <td>Name:</td>
-                        <td><form:input path="name" /></td>
-                    </tr>
-                    <tr>
-                        <td>Email:</td>
-                        <td><form:input path="email" /></td>
-                    </tr>
-        <tr>
-                        <td>Salary:</td>
-                        <td><form:input path="salary" /></td>
-                    </tr>
-
-                    <tr>
-                        <td>Telephone:</td>
-                        <td><form:input path="telephone" /></td>
-                    </tr>
-        <tr>
-                <td>Department:</td>
-                <td><form:input path="department" /></td>
-        </tr>
-        <tr>
-             <td>AccessCard Details:</td>
-             
-        </tr>
-        <tr>
-            <tr>
-            <td>Card Holder Name</td>
-            <td><form:input path="accessCard.card_holder_name" /></td>
-            </tr>
-        <tr>
-            <td>Department</td>
-            <td><form:input path="accessCard.department" /></td>
-        </tr>
-        <tr>
-            <td>Organisation</td>
-            <td><form:input path="accessCard.organization" /></td>
-        </tr>
-        </tr>
-                    <tr>
-                        <td colspan="2" align="center"><input type="submit" value="Save"></td>
-                    </tr>
-                </table>
-                </form:form>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand">Employee Registration</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="/">Home</a></li>
+                <li><a href="allEmployees">Employees</a></li>
+                <li class="active"><a href="newEmployee">New Employee</a></li>
+            </ul>
+        </div>
+    </nav>
         </div>
+<div class="container">
+    <div class="col-md-12 col-sm-12">
+        <div class="form-group col-md-3 col-sm-3">
+        </div>
+        <div class="form-group col-md-6 col-sm-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Registration Form</div>
+                <div class="panel-body">
+                    <form:form action="saveEmployee" method="post" modelAttribute="employee">
+                        <p>
+                            <form:hidden path="id"/>
+                            <label for="name">Name</label>
+                            <form:input path="name" class="form-control input-sm"/>
+
+                            <label for="email">Email</label>
+                            <form:input path="email"  class="form-control input-sm" />
+
+                            <label for="email">Salary</label>
+                            <form:input path="salary"  class="form-control input-sm" />
+
+                            <label for="email">Telephone</label>
+                            <form:input path="telephone"  class="form-control input-sm" />
+
+                            <label for="email">Department</label>
+                            <form:input path="department"  class="form-control input-sm" />
+                        </p>
+                        <div class="panel panel-info border border-danger">
+                            <div class="panel-heading">Access Card Details</div>
+                            <div class="panel-body">
+                                <form:hidden path="accessCard.id"/>
+                                <label for="email">Card Holder Name</label>
+                                <form:input path="accessCard.card_holder_name"  class="form-control input-sm" />
+                                <label for="email">Card Holder Department</label>
+                                <form:input path="accessCard.department"  class="form-control input-sm" />
+                                <label for="email">Card Holder Department</label>
+                                <form:input path="accessCard.organization"  class="form-control input-sm" />
+                            </div>
+                        </div>
+                        <input type="submit" class="btn btn-primary" value="Save">
+                    </form:form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

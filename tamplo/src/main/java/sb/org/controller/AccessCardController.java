@@ -34,6 +34,7 @@ public class AccessCardController {
 
     @RequestMapping(value = "/accessCard")
     public ModelAndView addAccessCard(HttpServletRequest request,ModelAndView model) {
+        System.out.println("From Accesscard");
         int accessCardId = Integer.parseInt(request.getParameter("id"));
         AccessCard accessCard = accessCardService.getAccessCard(accessCardId);
         List<AccessCard> accessCards = new ArrayList<>();
@@ -41,6 +42,7 @@ public class AccessCardController {
         System.out.println("Card Holder Name "+accessCard.getCard_holder_name());
         model.addObject("accessCards",accessCards);
         model.setViewName("AccessCardList");
+        /*model.setViewName("EmployeeList");*/
         return model;
     }
 

@@ -35,7 +35,10 @@ public class Employee {
     @JoinColumn(name = "access_card_id")
     private AccessCard accessCard;
 
-    @OneToMany(mappedBy="employee",cascade=CascadeType.ALL)
+    /*@OneToOne(mappedBy="student", cascade = CascadeType.ALL)
+    private Address address;*/
+
+    @OneToMany(mappedBy="employee",cascade=CascadeType.ALL,fetch = FetchType.EAGER)
     private List<Task> tasks;
 
 

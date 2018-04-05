@@ -1,12 +1,12 @@
 <%@page isELIgnored="false" contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
- 
+
 <html>
 <head>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Employee Management Screen</title>
     <style type="text/css">
@@ -16,14 +16,26 @@
     </style>
 </head>
 <body>
-    <div align="center">
-            <h3>
-    <table border="1"> 
-        <th><a href="/">Home</a></th>
-        <th><a href="newEmployee">New Employee</a></th>
-    </table>    
-</h3>
-    <h1>Employee List</h1>
+<div align="center">
+    <%-- <h3>
+<table border="1">
+    <th><a href="/">Home</a></th>
+    <th><a href="newEmployee">New Employee</a></th>
+</table>
+</h3>--%>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand">Employee List</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="/">Home</a></li>
+                <li class="active"><a href="allEmployees">Employees</a></li>
+                <li><a href="newEmployee">New Employee</a></li>
+            </ul>
+        </div>
+    </nav>
+    <%--<h1>Employee List</h1>--%>
     <table class="table">
         <thead>
         <tr>
@@ -36,50 +48,66 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="employee" items="${listEmployee}">
-                            <tr>
-                                <td>${employee.name}</td>
-                                <td>${employee.email}</td>
-                                <td>${employee.telephone}</td>
-            <td>${employee.salary}</td>
-            <td>${employee.department}</td>
-                                <td>
-            <a href="editEmployee?id=${employee.id}"><input type="button" value="Edit"></a>
-            <a href="deleteEmployee?id=${employee.id}"><input type="button" value="Delete"></a>
-            <a href="accessCard?id=${employee.accessCard.id}"><input type="button" value="Access Card Details"></a>
-            <a href="tasksById?id=${employee.id}"><input type="button" value="Show Tasks List"></a>
-            <a href="meetings?id=${employee.id}"><input type="button" value="ShowMeetings"></a>
-            </td>
-                            </tr>
-                        </c:forEach>
+        <c:forEach var="employee" items="${listEmployee}" varStatus="estatus">
+            <tr>
+                <td>${employee.name}</td>
+                <td>${employee.email}</td>
+                <td>${employee.telephone}</td>
+                <td>${employee.salary}</td>
+                <td>${employee.department}</td>
+                <td>
+                    <a href="saveCompleteEmployee?id=${employee.id}"><input type="button" class="btn btn-success" value="Edit"></a>
+                    <a href="deleteEmployee?id=${employee.id}"><input type="button" class="btn btn-danger"  value="Delete"></a>
+                        <%--<a href="accessCard?id=${employee.accessCard.id}"><input type="button" class="btn btn-info" value="Access Card Details"></a>
+                           &lt;%&ndash;<a href="employee-accessCard?id=${employee.accessCard.id}"><input type="button" data-toggle="modal" data-target="#myModal" class="btn btn-info" value="Access Card Details"></a>&ndash;%&gt;
+                           <a href="tasksById?id=${employee.id}"><input type="button" class="btn btn-info" value="Show Tasks List"></a>
+                           <a href="meetings?id=${employee.id}"><input type="button" class="btn btn-info" value="ShowMeetings"></a>--%>
+                    <div class="panel-group" id="accordion${estatus.index}">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion${estatus.index}" href="#collapse1${estatus.index}">
+                                        <input type="button" class="btn btn-info" value="Access Card Details"></a>
+                                </h4>
+                            </div>
+                            <div id="collapse1${estatus.index}" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <div class="panel panel-primary">
+                                        <div class="panel-body">
+                                            <p>Access Card Name :${employee.accessCard.card_holder_name}</p>
+                                            <p>Department :${employee.accessCard.department}</p>
+                                            <p>Organisation :${employee.accessCard.organization}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion${estatus.index}" href="#collapse2${estatus.index}">
+                                        <input type="button" class="btn btn-info" value="Show Tasks List"></a>
+                                </h4>
+                            </div>
+                            <div id="collapse2${estatus.index}" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <c:forEach var="eachTask" items="${employee.tasks}">
+                                        <div class="panel panel-primary">
+                                            <div class="panel-body">
+                                                <p>Task Description :${eachTask.task_desc}</p>
+                                                <p>Priority :${eachTask.task_priority}</p>
+                                            </div>
+                                        </div>
+                                    </c:forEach>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </c:forEach>
         </tbody>
     </table>
-            <%--<table border="1">
-     
-                <th>Name</th>
-                <th>Email</th>
-                <th>Telephone</th>
-                <th>Salary</th>
-                <th>Department</th>
-                <th>Operations</th>
-     
-                <c:forEach var="employee" items="${listEmployee}">
-                    <tr>
-                        <td>${employee.name}</td>
-                        <td>${employee.email}</td>
-                        <td>${employee.telephone}</td>
-                        <td>${employee.salary}</td>
-                        <td>${employee.department}</td>
-                        <td>
-                            <a href="editEmployee?id=${employee.id}"><input type="button" value="Edit"></a>
-                            <a href="deleteEmployee?id=${employee.id}"><input type="button" value="Delete"></a>
-                            <a href="accessCard?id=${employee.accessCard.id}"><input type="button" value="Access Card Details"></a>
-                            <a href="tasksById?id=${employee.id}"><input type="button" value="Show Tasks List"></a>
-                            <a href="meetings?id=${employee.id}"><input type="button" value="ShowMeetings"></a>
-                        </td>
-                    </tr>
-                </c:forEach>
-            </table>--%>
-        </div>
+</div>
 </body>
 </html>

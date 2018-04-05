@@ -15,7 +15,6 @@ public class Task {
     @Column
     private String task_priority;
 
-
     @ManyToOne
     @JoinColumn(name="employee_id", nullable=false)
     private Employee employee;

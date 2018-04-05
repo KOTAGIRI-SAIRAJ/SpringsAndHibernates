@@ -81,7 +81,7 @@ public class MeetingController {
     }
 
     @RequestMapping(value = "/meetings", method = RequestMethod.GET)
-    public ModelAndView showMeeting(HttpServletRequest request, ModelAndView modal) {
+    public ModelAndView showEmployees(HttpServletRequest request, ModelAndView modal) {
         int employeeId = Integer.parseInt(request.getParameter("id"));
         Employee employee = employeeService.getEmployee(employeeId);
         List<Meeting> meetingList = employee.getMeetings();

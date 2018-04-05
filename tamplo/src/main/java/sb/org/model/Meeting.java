@@ -19,7 +19,7 @@ public class Meeting {
     private int meeting_dur;
 
     @Column
-    private int name;
+    private String name;
 
 
     @ManyToMany(mappedBy = "meetings")
@@ -57,11 +57,11 @@ public class Meeting {
         this.meeting_dur = meeting_dur;
     }
 
-    public int getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(int name) {
+    public void setName(String name) {
         this.name = name;
     }
 }

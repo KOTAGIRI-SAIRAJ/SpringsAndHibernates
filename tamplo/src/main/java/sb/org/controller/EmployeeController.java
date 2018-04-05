@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import sb.org.model.AccessCard;
 import sb.org.model.Employee;
 import sb.org.model.Task;
 import sb.org.service.AccessCardService;
@@ -15,6 +16,7 @@ import sb.org.service.TaskService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -51,9 +53,14 @@ public class EmployeeController {
     @RequestMapping(value = "/newEmployee")
     public ModelAndView newContact(ModelAndView model) {
         Employee employee = new Employee();
+        List<Task> tasks = new ArrayList<>();
+        tasks.add(new Task());
+        tasks.add(new Task());
+        System.out.println("Task Size "+tasks.size());
+        employee.setTasks(tasks);
         model.addObject("employee", employee);
         model.addObject("FormName", "New");
-        model.setViewName("EmployeeForm");
+        model.setViewName("EmployeeMeetings");
         return model;
     }
 
@@ -80,7 +87,35 @@ public class EmployeeController {
     @RequestMapping(value = "/deleteEmployee", method = RequestMethod.GET)
     public ModelAndView deleteEmployee(HttpServletRequest request) {
         int employeeId = Integer.parseInt(request.getParameter("id"));
+        /*Employee employee = employeeService.getEmployee(employeeId);
+        employee.setTasks(null);*/
         employeeService.deleteEmployee(employeeId);
         return new ModelAndView("redirect:/allEmployees");
+    }
+
+    /*@RequestMapping(value = "/employee-accessCard", method = RequestMethod.GET)
+    public void showAccessCard(HttpServletRequest request,ModelAndView model) {
+        int employeeId = Integer.parseInt(request.getParameter("id"));
+        employeeService.deleteEmployee(employeeId);
+        int accessCardId = Integer.parseInt(request.getParameter("id"));
+        AccessCard accessCard = accessCardService.getAccessCard(accessCardId);
+        List<AccessCard> accessCards = new ArrayList<>();
+        accessCards.add(accessCard);
+        System.out.println("Card Holder Name "+accessCard.getCard_holder_name());
+        model.addObject("accessCards",accessCards);
+        model.setViewName("AccessCardList");
+    }*/
+
+    @RequestMapping(value = "/saveCompleteEmployee", method = RequestMethod.GET)
+    public ModelAndView saveCompleteEmployee(HttpServletRequest request) {
+        int employeeId = Integer.parseInt(request.getParameter("id"));
+        Employee employee = employeeService.getEmployee(employeeId);
+        /*List<Task> taskList = employee.getTasks();*/
+        System.out.println("Task List "+employee.getTasks().size());
+        /*employee.setTasks(taskList);*/
+        ModelAndView model = new ModelAndView("EmployeeMeetings");
+        model.addObject("employee", employee);
+        model.addObject("FormName", "Edit");
+        return model;
     }
 }
