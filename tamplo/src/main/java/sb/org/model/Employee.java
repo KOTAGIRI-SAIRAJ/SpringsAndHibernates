@@ -41,13 +41,7 @@ public class Employee {
     @OneToMany(mappedBy="employee",cascade=CascadeType.ALL,fetch = FetchType.EAGER)
     private List<Task> tasks;
 
-
-    @ManyToMany(targetEntity = sb.org.model.Meeting.class,cascade = { CascadeType.ALL })
-    @JoinTable(
-            name = "Employee_Meeting",
-            joinColumns = { @JoinColumn(name = "employee_id") },
-            inverseJoinColumns = { @JoinColumn(name = "meeting_id") }
-    )
+    @ManyToMany(mappedBy = "employees", cascade = CascadeType.PERSIST)
     List<Meeting> meetings= new ArrayList<Meeting>();
 
     public int getId() {

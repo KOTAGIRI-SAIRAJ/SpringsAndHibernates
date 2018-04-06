@@ -60,7 +60,7 @@ public class EmployeeController {
         employee.setTasks(tasks);
         model.addObject("employee", employee);
         model.addObject("FormName", "New");
-        model.setViewName("EmployeeMeetings");
+        model.setViewName("EmployeeForm");
         return model;
     }
 
@@ -78,6 +78,9 @@ public class EmployeeController {
     public ModelAndView editContact(HttpServletRequest request) {
         int employeeId = Integer.parseInt(request.getParameter("id"));
         Employee employee = employeeService.getEmployee(employeeId);
+        /*List<Task> taskList = employee.getTasks();*/
+        System.out.println("Task List "+employee.getTasks().size());
+        /*employee.setTasks(taskList);*/
         ModelAndView model = new ModelAndView("EmployeeForm");
         model.addObject("employee", employee);
         model.addObject("FormName", "Edit");
@@ -110,9 +113,6 @@ public class EmployeeController {
     public ModelAndView saveCompleteEmployee(HttpServletRequest request) {
         int employeeId = Integer.parseInt(request.getParameter("id"));
         Employee employee = employeeService.getEmployee(employeeId);
-        /*List<Task> taskList = employee.getTasks();*/
-        System.out.println("Task List "+employee.getTasks().size());
-        /*employee.setTasks(taskList);*/
         ModelAndView model = new ModelAndView("EmployeeMeetings");
         model.addObject("employee", employee);
         model.addObject("FormName", "Edit");

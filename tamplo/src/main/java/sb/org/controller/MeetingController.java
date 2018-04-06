@@ -14,8 +14,11 @@ import sb.org.model.Meeting;
 import sb.org.service.EmployeeService;
 import sb.org.service.MeetingService;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -88,5 +91,40 @@ public class MeetingController {
         modal.addObject("EmployeeMeetings",meetingList);
         modal.setViewName("EmployeeMeetings");
         return modal;
+    }
+
+    @RequestMapping(value = "/enrollEmployees",method = RequestMethod.GET)
+    private ModelAndView getEnrolledEmployeesForMeeting(HttpServletRequest request){
+        int meetingId = Integer.parseInt(request.getParameter("id"));
+        Meeting meeting = meetingService.getMeeting(meetingId);
+        System.out.println("meeting Title"+ meeting.getMeeting_title());
+        List<Employee> employeeList = employeeService.getAllEmployees();
+        ModelAndView modal = new ModelAndView("EnrollEmployees");
+        modal.addObject("meeting",meeting);
+        modal.addObject(employeeList);
+        modal.setViewName("EnrollEmployees");
+        return modal;
+    }
+
+    @RequestMapping(value = "/enrollSelectedEmployees",method = RequestMethod.POST)
+    private void enrollTheSelectedEmployees(@ModelAttribute Meeting meetingObj,HttpServletRequest request){
+        int meetingId = meetingObj.getId();
+        System.out.println("meeting ID "+meetingId);
+        String checkboxValues[] = request.getParameterValues("enroll");
+        List<Meeting> meetingList = new ArrayList<>();
+        List<Employee> employees = new ArrayList<>();
+        Meeting meeting = meetingService.getMeeting(meetingId);
+        meetingList.add(meeting);
+        for (String checkboxValue : checkboxValues) {
+            System.out.println("checkbox ID"+checkboxValue );
+            Employee employee = employeeService.getEmployee(Integer.parseInt(checkboxValue));
+            employee.setMeetings(meetingList);
+            employees.add(employee);
+        }
+        meeting.setEmployees(employees);
+        Meeting updatedMeeting = meetingService.updateMeeting(meeting);
+        System.out.println("Data is updated...");
+        System.out.println(updatedMeeting.getEmployees().size());
+        System.out.println("Data is Saved");
     }
 }

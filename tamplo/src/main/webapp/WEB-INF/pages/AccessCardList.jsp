@@ -4,9 +4,10 @@
 
 <html>
 <head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>AccessCard Management Screen</title>
     <style type="text/css">
@@ -16,26 +17,18 @@
     </style>
 </head>
 <body>
-<div align="center">
-    <%--        <h3>
-       <table border="1">
-           <th><a href="/">Home</a></th>
-           <th><a href="allEmployees">Employees</a></th>
-       </table>
-       </h3>--%>
-    <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand">AccessCard</a>
-            </div>
-            <ul class="nav navbar-nav">
-                <li><a href="/">Home</a></li>
-                <li><a href="allEmployees">Employees</a></li>
-                <li class="active"><a href="allAccessCards">Access Cards</a></li>
+<div class="container">
+    <%--<div class="container">
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+            <a class="navbar-brand">Access Card</a>
+            <ul class="navbar-nav">
+                <li><a href="/"><input type="button" class="btn" style="background-color: #343a40" value="Home"></a></li>
+                <li ><a href="allEmployees"><input type="button" class="btn" style="background-color: #343a40" value="Employees"></a></li>
+                <li class="active"><a href="allAccessCards"><input type="button" class="btn" style="background-color: #343a40" value="Access Cards"></a></li>
             </ul>
-        </div>
-    </nav>
-    <%--<h1>AccessCard List</h1>--%>
+        </nav>
+    </div>--%>
+    <jsp:include page="home.jsp" />
     <table class="table">
         <thead>
         <tr>

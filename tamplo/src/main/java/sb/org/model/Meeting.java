@@ -19,10 +19,14 @@ public class Meeting {
     private int meeting_dur;
 
     @Column
-    private String name;
+    private String client_name;
 
-
-    @ManyToMany(mappedBy = "meetings")
+    @ManyToMany(targetEntity = sb.org.model.Employee.class,cascade = CascadeType.PERSIST)
+    @JoinTable(
+            name = "Employee_Meeting",
+            joinColumns = { @JoinColumn(name = "meeting_id") },
+            inverseJoinColumns = { @JoinColumn(name = "employee_id") }
+    )
     private List<Employee> employees = new ArrayList<Employee>();
 
     public int getId() {
@@ -57,11 +61,11 @@ public class Meeting {
         this.meeting_dur = meeting_dur;
     }
 
-    public String getName() {
-        return name;
+    public String getClient_name() {
+        return client_name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setClient_name(String client_name) {
+        this.client_name = client_name;
     }
 }
