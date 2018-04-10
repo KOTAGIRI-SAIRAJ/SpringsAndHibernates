@@ -38,7 +38,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Transactional
     public Employee getEmployee(int employeeId) {
         Employee employee = employeeDAO.getEmployee(employeeId);
-        /*Hibernate.initialize(employee.getTasks());*/
+        Hibernate.initialize(employee.getMeetings());
         return employee;
     }
 
@@ -46,5 +46,16 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Transactional
     public Employee updateEmployee(Employee employee) {
         return employeeDAO.updateEmployee(employee);
+    }
+
+    @Override
+    public List<Employee> getUnEnrolledEmployees(List employees) {
+        List<Employee> employeeList = employeeDAO.getUnEnrolledEmployees(employees);
+        return employeeList;
+    }
+
+    @Override
+    public List<Employee> searchForEmployee(String keyword) {
+        return employeeDAO.searchForEmployee(keyword);
     }
 }

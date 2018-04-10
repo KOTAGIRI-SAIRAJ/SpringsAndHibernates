@@ -39,11 +39,11 @@
     <%--<jsp:include page="home.jsp"></jsp:include>
         </div>--%>
 <div class="container">
-    <jsp:include page="home.jsp"></jsp:include>
-    <div class="col-md-12 col-sm-12">
+    <jsp:include page="Header.jsp"></jsp:include>
+    <div class="col-md-12 col-sm-12" style="margin-top: 25px">
         <form:form action="saveEmployee" method="post" modelAttribute="employee">
             <div class="card bg-secondary text-white">
-                <div class="card-body">Registration Page</div>
+                <div class="card-body">${FormName}</div>
             </div>
             <div class="card border-dark mb-3">
                 <div class="card-body text-dark">

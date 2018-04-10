@@ -96,66 +96,101 @@
     </style>
 </head>
 <body>
-    <%--<div class="container">
-        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+<%--<div class="container">
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <a class="navbar-brand">Enroll Employees To ${meeting.meeting_title} meeting</a>
+        <ul class="navbar-nav">
+            <li><a href="/"><input type="button" class="btn" style="background-color: #343a40" value="Home"></a></li>
+            <li class="active"><a href="allMeetings"><input type="button" class="btn" style="background-color: #343a40" value="Meetings"></a></li>
+        </ul>
+    </nav>
+</div>--%>
+<%--<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
             <a class="navbar-brand">Enroll Employees To ${meeting.meeting_title} meeting</a>
-            <ul class="navbar-nav">
-                <li><a href="/"><input type="button" class="btn" style="background-color: #343a40" value="Home"></a></li>
-                <li class="active"><a href="allMeetings"><input type="button" class="btn" style="background-color: #343a40" value="Meetings"></a></li>
-            </ul>
-        </nav>
-    </div>--%>
-    <%--<nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand">Enroll Employees To ${meeting.meeting_title} meeting</a>
-            </div>
-            <ul class="nav navbar-nav">
-                <li><a href="/">Home</a></li>
-                <li class="active"><a href="allMeeting">Meetings</a></li>
-            </ul>
         </div>
-    </nav>--%>
-    <div class="container">
-    <jsp:include page="home.jsp"></jsp:include>
-<form:form action="enrollSelectedEmployees" method="post" modelAttribute="meeting">
-        <table class="table table-bordered table-definition mb-5">
-            <thead class="table-warning ">
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Telephone</th>
-                <th>Salary</th>
-                <th>Department</th>
-                <th>Enroll</th>
-            </tr>
-            </thead>
-            <tbody>
-            <form:hidden path="id"/>
-            <c:forEach var="employee" items="${employeeList}" varStatus="estatus">
-                <tr>
-                    <td>${employee.name}</td>
-                    <td>${employee.email}</td>
-                    <td>${employee.telephone}</td>
-                    <td>${employee.salary}</td>
-                    <td>${employee.department}</td>
-                    <td>
-                        <label class="custom-control custom-checkbox" >
-                            <input type="checkbox" name="enroll" value="${employee.id}"  class="custom-control-input">
-                            <span class="custom-control-indicator"></span>
-                        </label>
-                    </td>
-                </tr>
-            </c:forEach>
-            </tbody>
-            <tfoot>
-            <tr>
-                <th><a colspan="4"><button type="submit" class="btn btn-default">Enroll Employees</button></a></th>
-            </tr>
-            </tfoot>
-        </table>
-</form:form>
+        <ul class="nav navbar-nav">
+            <li><a href="/">Home</a></li>
+            <li class="active"><a href="allMeeting">Meetings</a></li>
+        </ul>
     </div>
+</nav>--%>
+<div class="container">
+    <jsp:include page="Header.jsp"></jsp:include>
+    <div style="margin-top: 25px">
+        <form:form action="enrollSelectedEmployees" method="post" modelAttribute="meeting" >
+            <h1>Enrolled Employees</h1>
+            <table class="table table-bordered table-definition mb-5">
+                <thead class="table-warning ">
+                <tr>
+                    <th>S NO</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Telephone</th>
+                    <th>Salary</th>
+                    <th>Department</th>
+                    <%--<th>UnEnroll</th>--%>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach var="emp" items="${employees}" varStatus="estatus">
+                    <tr>
+                        <td>${estatus.index+1}</td>
+                        <td>${emp.name}</td>
+                        <td>${emp.email}</td>
+                        <td>${emp.telephone}</td>
+                        <td>${emp.salary}</td>
+                        <td>${emp.department}</td>
+                        <%--<td>
+                            <label class="custom-control custom-checkbox" >
+                                <input type="checkbox" name="unenroll" value="${emp.id}"  class="custom-control-input">
+                                <span class="custom-control-indicator"></span>
+                            </label>
+                        </td>--%>
+                    </tr>
+                </c:forEach>
+
+                </tbody>
+            </table>
+            <%--<a colspan="4" href="unEnrollSelectedEmployees?id=${meeting.id}"><button type="button" class="btn btn-primary" style="float:right;">UnEnroll Employees</button></a>--%>
+            <h1>Not Enrolled</h1>
+            <table class="table table-bordered table-definition mb-5">
+                <thead class="table-warning ">
+                <tr>
+                    <th>S NO</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Telephone</th>
+                    <th>Salary</th>
+                    <th>Department</th>
+                    <th>Enroll</th>
+                </tr>
+                </thead>
+                <tbody>
+                <form:hidden path="id"/>
+                <c:forEach var="employee" items="${employeeList}" varStatus="estatus">
+                    <tr>
+                        <td>${estatus.index+1}</td>
+                        <td>${employee.name}</td>
+                        <td>${employee.email}</td>
+                        <td>${employee.telephone}</td>
+                        <td>${employee.salary}</td>
+                        <td>${employee.department}</td>
+                        <td>
+                            <label class="custom-control custom-checkbox" >
+                                <input type="checkbox" name="enroll" value="${employee.id}"  class="custom-control-input">
+                                <span class="custom-control-indicator"></span>
+                            </label>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+            <a colspan="4" ><button type="submit" class="btn btn-primary" style="float:right;">Enroll Employees</button></a>
+        </form:form>
+    </div>
+</div>
 
 </body>
 </html>

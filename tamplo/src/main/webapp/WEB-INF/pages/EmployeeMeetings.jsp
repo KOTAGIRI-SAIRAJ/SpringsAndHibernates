@@ -24,8 +24,8 @@
     </div>
         </div>--%>
 <div class="container">
-    <jsp:include page="home.jsp"></jsp:include>
-    <div class="col-md-12 col-sm-12">
+    <jsp:include page="Header.jsp"></jsp:include>
+    <div class="col-md-12 col-sm-12" style="margin-top: 25px">
         <div class="form-group col-md-3 col-sm-3">
         </div>
         <div class="form-group col-md-6 col-sm-6">

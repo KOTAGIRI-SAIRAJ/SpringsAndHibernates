@@ -21,12 +21,18 @@ public class Meeting {
     @Column
     private String client_name;
 
-    @ManyToMany(targetEntity = sb.org.model.Employee.class,cascade = CascadeType.PERSIST)
+    /*@ManyToMany(targetEntity = sb.org.model.Employee.class,cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "Employee_Meeting",
             joinColumns = { @JoinColumn(name = "meeting_id") },
             inverseJoinColumns = { @JoinColumn(name = "employee_id") }
-    )
+    )*/
+
+
+    @ManyToMany(fetch = FetchType.LAZY,cascade = { CascadeType.PERSIST},targetEntity = Employee.class)
+    @JoinTable(name="Employee_Meeting", joinColumns={@JoinColumn(name="meeting_id",nullable = false,updatable = false)}, inverseJoinColumns = {@JoinColumn(name="employee_id",nullable = false,updatable = false)},
+            foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT),
+            inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
     private List<Employee> employees = new ArrayList<Employee>();
 
     public int getId() {

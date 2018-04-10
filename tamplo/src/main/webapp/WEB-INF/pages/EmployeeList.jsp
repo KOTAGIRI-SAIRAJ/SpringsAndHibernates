@@ -15,9 +15,19 @@
         .table thead > tr > th { border-bottom: none; }
         .table thead > tr > th, .table tbody > tr > th, .table tfoot > tr > th, .table thead > tr > td, .table tbody > tr > td, .table tfoot > tr > td { border: 1px solid #2980B9; }
     </style>
+    <script>
+        $(document).ready(function(){
+            $("#searchbutton").click(function() {
+                var keyword = $("#searchBar").val();
+                /*window.location.href = window.location.href+ '/Search?search=' + keyword;*/
+                window.location.href = "?search=" + keyword;
+            })
+        });
+    </script>
 </head>
 <body>
 <div class="container">
+    <jsp:include page="Header.jsp"></jsp:include>
     <%--<div class="container">
         <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
             <a class="navbar-brand">Employee List</a>
@@ -28,16 +38,29 @@
             </ul>
         </nav>
     </div>--%>
-    <jsp:include page="home.jsp"></jsp:include>
-    <table class="table">
+
+    <table class="table" style="margin-top: 25px">
+
         <thead>
+        <div class="row" style="margin-top: 25px">
+            <div class="col-lg-6"></div>
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <input type="text" id="searchBar" class="form-control" placeholder="Search for any...">
+                        <span class="input-group-btn">
+                            <button class="btn btn-secondary" type="button" id="searchbutton">Go!</button>
+                        </span>
+                </div>
+            </div>
+        </div>
         <tr>
             <th>Name</th>
             <th>Email</th>
             <th>Telephone</th>
             <th>Salary</th>
             <th>Department</th>
-            <th>Operations</th>
+            <th>Actions</th>
+            <th>Mapping Relations</th>
         </tr>
         </thead>
         <tbody>
@@ -51,19 +74,63 @@
                 <td>
                     <a href="editEmployee?id=${employee.id}"><input type="button" class="btn btn-success" value="Edit"></a>
                     <a href="deleteEmployee?id=${employee.id}"><input type="button" class="btn btn-danger"  value="Delete"></a>
-                        <%--<a href="accessCard?id=${employee.accessCard.id}"><input type="button" class="btn btn-info" value="Access Card Details"></a>
-                           &lt;%&ndash;<a href="employee-accessCard?id=${employee.accessCard.id}"><input type="button" data-toggle="modal" data-target="#myModal" class="btn btn-info" value="Access Card Details"></a>&ndash;%&gt;
-                           <a href="tasksById?id=${employee.id}"><input type="button" class="btn btn-info" value="Show Tasks List"></a>
-                           <a href="meetings?id=${employee.id}"><input type="button" class="btn btn-info" value="ShowMeetings"></a>--%>
-                    <div class="panel-group" id="accordion${estatus.index}">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#accordion${estatus.index}" href="#collapse1${estatus.index}">
-                                        <input type="button" class="btn btn-info" value="Access Card Details"></a>
-                                </h4>
+                </td>
+                <td>
+                        <%--<div class="panel-group" id="accordion${estatus.index}">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion${estatus.index}" href="#collapse1${estatus.index}">
+                                            <input type="button" class="btn btn-info" value="Access Card Details"></a>
+                                    </h4>
+                                </div>
+                                <div id="collapse1${estatus.index}" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <div class="panel panel-primary">
+                                            <div class="panel-body">
+                                                <p>Access Card Name :${employee.accessCard.card_holder_name}</p>
+                                                <p>Department :${employee.accessCard.department}</p>
+                                                <p>Organisation :${employee.accessCard.organization}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div id="collapse1${estatus.index}" class="panel-collapse collapse">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion${estatus.index}" href="#collapse2${estatus.index}">
+                                            <input type="button" class="btn btn-info" value="Show Tasks List"></a>
+                                    </h4>
+                                </div>
+                                <div id="collapse2${estatus.index}" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <c:forEach var="eachTask" items="${employee.tasks}">
+                                            <div class="panel panel-primary">
+                                                <div class="panel-body">
+                                                    <p>Task Description :${eachTask.task_desc}</p>
+                                                    <p>Priority :${eachTask.task_priority}</p>
+                                                </div>
+                                            </div>
+                                        </c:forEach>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>--%>
+
+
+                    <div id="accordion${estatus.index}">
+                        <div class="card">
+                            <div class="card-header" id="headingOne${estatus.index}">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne${estatus.index}" aria-expanded="true" aria-controls="collapseOne${estatus.index}">
+                                        <input type="button" class="btn btn-info" value="Access Card Details">
+                                    </button>
+                                </h5>
+                            </div>
+
+                            <div id="collapseOne${estatus.index}" class="collapse" aria-labelledby="headingOne${estatus.index}" data-parent="#accordion${estatus.index}">
+                                    <%--<div class="card-body">--%>
                                 <div class="panel-body">
                                     <div class="panel panel-primary">
                                         <div class="panel-body">
@@ -73,29 +140,49 @@
                                         </div>
                                     </div>
                                 </div>
+                                    <%--</div>--%>
                             </div>
                         </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#accordion${estatus.index}" href="#collapse2${estatus.index}">
-                                        <input type="button" class="btn btn-info" value="Show Tasks List"></a>
-                                </h4>
+                        <div class="card">
+                            <div class="card-header" id="headingTwo${estatus.index}">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo${estatus.index}" aria-expanded="false" aria-controls="collapseTwo${estatus.index}">
+                                        <input type="button" class="btn btn-info" value="Show Tasks List">
+                                    </button>
+                                </h5>
                             </div>
-                            <div id="collapse2${estatus.index}" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                    <c:forEach var="eachTask" items="${employee.tasks}">
-                                        <div class="panel panel-primary">
-                                            <div class="panel-body">
-                                                <p>Task Description :${eachTask.task_desc}</p>
-                                                <p>Priority :${eachTask.task_priority}</p>
+                            <div id="collapseTwo${estatus.index}" class="collapse" aria-labelledby="headingTwo${estatus.index}" data-parent="#accordion${estatus.index}">
+                                <div class="card-body">
+                                    <div class="panel-body">
+                                        <c:forEach var="eachTask" items="${employee.tasks}">
+                                            <div class="panel panel-primary">
+                                                <div class="panel-body">
+                                                    <p>Task Description :${eachTask.task_desc}</p>
+                                                    <p>Priority :${eachTask.task_priority}</p>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </c:forEach>
+                                        </c:forEach>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                            <%--<div class="card">
+                                <div class="card-header" id="headingThree${estatus.index}">
+                                    <h5 class="mb-0">
+                                        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree${estatus.index}" aria-expanded="false" aria-controls="collapseThree${estatus.index}">
+                                            Collapsible Group Item #3
+                                        </button>
+                                    </h5>
+                                </div>
+                                <div id="collapseThree${estatus.index}" class="collapse" aria-labelledby="headingThree${estatus.index}" data-parent="#accordion${estatus.index}">
+                                    <div class="card-body">
+                                        Anim pariatur cliche
+                                    </div>
+                                </div>
+                            </div>--%>
                     </div>
+
+
                 </td>
             </tr>
         </c:forEach>

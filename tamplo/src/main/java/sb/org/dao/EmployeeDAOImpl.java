@@ -1,12 +1,15 @@
 package sb.org.dao;
 
 import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import sb.org.model.Employee;
+import sb.org.model.Meeting;
 import sb.org.model.Task;
 
 import java.util.Iterator;
@@ -27,8 +30,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     @Override
     public List<Employee> getAllEmployees() {
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Employee.class);
-        criteria.setMaxResults(10)
-                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
                 .addOrder( Order.desc("name") );
         return criteria.list();
     }
@@ -37,6 +39,12 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     public void deleteEmployee(Integer employeeId) {
         Employee employee = (Employee) sessionFactory.getCurrentSession().load(
                 Employee.class, employeeId);
+        /*Hibernate.initialize(employee.getMeetings());
+        System.out.println("deleteEmployee called in DAOImpl");
+        List<Meeting> meetingList = employee.getMeetings();
+        System.out.println("meetingList "+ meetingList.size());
+        employee.setMeetings(null);
+        sessionFactory.getCurrentSession().update(employee);*/
         if (null != employee) {
             this.sessionFactory.getCurrentSession().delete(employee);
         }
@@ -53,6 +61,35 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     public Employee getEmployee(int employeeId) {
         return (Employee) sessionFactory.getCurrentSession().get(
                 Employee.class, employeeId);
+    }
+
+    @Override
+    public List<Employee> getUnEnrolledEmployees(List employeeIdsList) {
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Employee.class)
+                .add(Restrictions.not(Restrictions.in("id", employeeIdsList)))
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+        return criteria.list();
+    }
+
+    @Override
+    public List<Employee> searchForEmployee(String keyword) {
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Employee.class);
+        if (keyword.matches("[0-9]+") && keyword.length() > 2 && keyword.length() < 7) {
+            int value = Integer.parseInt(keyword);
+            criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+                    .add(Restrictions.eq("salary",value))
+                    .addOrder( Order.desc("name") );
+        } else {
+            criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+                    .add(Restrictions.or(
+                            Restrictions.like("name","%"+keyword+"%").ignoreCase(),
+                            (Restrictions.like("telephone","%"+keyword+"%").ignoreCase()),
+                            (Restrictions.like("department","%"+keyword+"%").ignoreCase()),
+                            (Restrictions.like("email","%"+keyword+"%").ignoreCase())
+                    ))
+                    .addOrder( Order.desc("name") );
+        }
+        return criteria.list();
     }
 
     public Employee setEmployeeToTasks(Employee employee){

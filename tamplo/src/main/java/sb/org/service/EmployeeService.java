@@ -15,4 +15,9 @@ public interface EmployeeService {
     public Employee getEmployee(int employeeId);
 
     public Employee updateEmployee(Employee employee);
+
+    public List<Employee> getUnEnrolledEmployees(List employees);
+
+    public List<Employee> searchForEmployee(String keyword);
+
 }

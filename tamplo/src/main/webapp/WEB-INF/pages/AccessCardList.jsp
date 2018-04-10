@@ -28,7 +28,7 @@
             </ul>
         </nav>
     </div>--%>
-    <jsp:include page="home.jsp" />
+    <jsp:include page="Header.jsp" />
     <table class="table">
         <thead>
         <tr>

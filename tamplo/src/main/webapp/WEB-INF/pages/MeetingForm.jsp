@@ -22,7 +22,7 @@
             </ul>
         </nav>
     </div>--%>
-    <jsp:include page="home.jsp"></jsp:include>
+    <jsp:include page="Header.jsp"></jsp:include>
     <form:form action="saveMeeting" method="post" modelAttribute="meeting">
                 <table>
                     <form:hidden path="id"/>

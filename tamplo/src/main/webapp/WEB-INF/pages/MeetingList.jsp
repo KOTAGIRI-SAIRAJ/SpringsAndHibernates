@@ -31,9 +31,9 @@
             </ul>
         </nav>
     </div>--%>
-    <jsp:include page="home.jsp"></jsp:include>
+    <jsp:include page="Header.jsp"></jsp:include>
     <%--<h1>Meeting List</h1>--%>
-            <table border="1">
+            <table border="1" style="margin-top: 25px">
      
                 <th>Meeting Title</th>
     <th>Meeting Duration</th>
@@ -52,6 +52,9 @@
     <a href="enrollEmployees?id=${meeting.id}"><input type="button" class="btn btn-info" value="Enroll Employees"></a>
     </td>
                     </tr>
+                    <%--<c:forEach var="meeting" items="${meetingList}">
+
+                    </c:forEach>--%>
                 </c:forEach>
             </table>
         </div>

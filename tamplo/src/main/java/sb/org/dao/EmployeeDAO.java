@@ -15,4 +15,8 @@ public interface EmployeeDAO {
     public Employee updateEmployee(Employee employee);
 
     public Employee getEmployee(int employeeId);
+
+    public List<Employee> getUnEnrolledEmployees(List employeeIdsList);
+
+    public List<Employee> searchForEmployee(String keyword);
 }

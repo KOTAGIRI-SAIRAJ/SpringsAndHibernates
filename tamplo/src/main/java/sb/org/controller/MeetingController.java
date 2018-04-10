@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.method.annotation.ModelAndViewMethodReturnValueHandler;
 import sb.org.model.Employee;
 import sb.org.model.Meeting;
+import sb.org.model.Task;
 import sb.org.service.EmployeeService;
 import sb.org.service.MeetingService;
 
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Controller
@@ -94,37 +96,95 @@ public class MeetingController {
     }
 
     @RequestMapping(value = "/enrollEmployees",method = RequestMethod.GET)
-    private ModelAndView getEnrolledEmployeesForMeeting(HttpServletRequest request){
+    private ModelAndView getUnEnrolledEmployeesForMeeting(HttpServletRequest request){
         int meetingId = Integer.parseInt(request.getParameter("id"));
         Meeting meeting = meetingService.getMeeting(meetingId);
-        System.out.println("meeting Title"+ meeting.getMeeting_title());
-        List<Employee> employeeList = employeeService.getAllEmployees();
+        List<Employee> enrolledEmployees = meeting.getEmployees();
+        List enrolledEmployeesWithId = new ArrayList<>();
+        List<Employee> employeeList;
+        for (Employee enrolledEmployee : enrolledEmployees) {
+            enrolledEmployeesWithId.add(enrolledEmployee.getId());
+        }
+        if(enrolledEmployeesWithId.size() > 0){
+            employeeList = employeeService.getUnEnrolledEmployees(enrolledEmployeesWithId);
+        }else{
+            employeeList = employeeService.getAllEmployees();
+        }
+        /*List<Employee> employeeList = meetingService.getUnEnrolledEmployeesDetails(meetingId);*/
         ModelAndView modal = new ModelAndView("EnrollEmployees");
         modal.addObject("meeting",meeting);
+        modal.addObject("employees",enrolledEmployees);
         modal.addObject(employeeList);
         modal.setViewName("EnrollEmployees");
         return modal;
     }
 
     @RequestMapping(value = "/enrollSelectedEmployees",method = RequestMethod.POST)
-    private void enrollTheSelectedEmployees(@ModelAttribute Meeting meetingObj,HttpServletRequest request){
+    private ModelAndView enrollTheSelectedEmployees(@ModelAttribute Meeting meetingObj,HttpServletRequest request){
         int meetingId = meetingObj.getId();
-        System.out.println("meeting ID "+meetingId);
+        System.out.println("Meeting Id "+meetingId);
+        if(request.getParameterValues("enroll") == null) {
+            return new ModelAndView("redirect:/enrollEmployees?id="+meetingId);
+        }
         String checkboxValues[] = request.getParameterValues("enroll");
+        System.out.println("checkboxValues length "+checkboxValues.length);
         List<Meeting> meetingList = new ArrayList<>();
         List<Employee> employees = new ArrayList<>();
         Meeting meeting = meetingService.getMeeting(meetingId);
         meetingList.add(meeting);
         for (String checkboxValue : checkboxValues) {
-            System.out.println("checkbox ID"+checkboxValue );
             Employee employee = employeeService.getEmployee(Integer.parseInt(checkboxValue));
             employee.setMeetings(meetingList);
             employees.add(employee);
         }
-        meeting.setEmployees(employees);
-        Meeting updatedMeeting = meetingService.updateMeeting(meeting);
-        System.out.println("Data is updated...");
-        System.out.println(updatedMeeting.getEmployees().size());
-        System.out.println("Data is Saved");
+        List<Employee> enrolledEmployees = meeting.getEmployees();
+        enrolledEmployees.addAll(employees);
+        meeting.setEmployees(enrolledEmployees);
+        meetingService.updateMeeting(meeting);
+        return new ModelAndView("redirect:/enrollEmployees?id="+meetingId);
     }
+
+    /*@RequestMapping(value = "/unEnrollSelectedEmployees",method = RequestMethod.GET)
+    private void unEnrollTheSelectedEmployees(HttpServletRequest request){
+
+        int meetingId = Integer.parseInt(request.getParameter("id"));
+        *//*if(request.getParameterValues("unenroll") == null) {
+            return new ModelAndView("redirect:/enrollEmployees?id="+meetingId);
+        }*//*
+        String checkboxValues[] = request.getParameterValues("unenroll");
+        Meeting meeting = meetingService.getMeeting(meetingId);
+        List<Meeting> meetingList = new ArrayList<>();
+        List<Employee> employees = new ArrayList<>();
+        List<Employee> enrolledEmployees = meeting.getEmployees();
+        List<Employee> removedSelectedEnrolledEmployees;
+
+        *//*enrolledEmployees = enrolledEmployees.filter(function( obj ) {
+            return obj.id !== 337;
+        });*//*
+        System.out.println("CheckBox Values length "+checkboxValues.length);
+        System.out.println("Enrolled Employees before delete "+enrolledEmployees.size());
+        for (Employee enrolledEmployee : enrolledEmployees) {
+            for (String checkboxValue : checkboxValues) {
+                Employee employee = employeeService.getEmployee(Integer.parseInt(checkboxValue));
+                if(employee.getId() == enrolledEmployee.getId()){
+                    System.out.println("Matched Employee ID "+employee.getId());
+                    enrolledEmployees.remove(enrolledEmployee);
+                }
+            }
+        }
+        System.out.println("Enrolled Employees after delete "+enrolledEmployees.size());
+
+        *//*Meeting meeting = meetingService.getMeeting(meetingId);
+        meetingList.add(meeting);
+        for (String checkboxValue : checkboxValues) {
+            Employee employee = employeeService.getEmployee(Integer.parseInt(checkboxValue));
+            employee.setMeetings(meetingList);
+            employees.add(employee);
+        }
+        List<Employee> enrolledEmployees = meeting.getEmployees();
+        enrolledEmployees.addAll(employees);
+        meeting.setEmployees(enrolledEmployees);
+        meetingService.updateMeeting(meeting);*//*
+        *//*return new ModelAndView("redirect:/enrollEmployees?id="+meetingId);*//*
+    }*/
 }

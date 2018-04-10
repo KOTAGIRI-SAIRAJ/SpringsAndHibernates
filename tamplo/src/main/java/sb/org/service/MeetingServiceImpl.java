@@ -1,9 +1,11 @@
 package sb.org.service;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sb.org.dao.MeetingDAO;
+import sb.org.model.Employee;
 import sb.org.model.Meeting;
 
 import java.util.List;
@@ -36,7 +38,9 @@ public class MeetingServiceImpl implements MeetingService {
     @Override
     @Transactional
     public Meeting getMeeting(int meetingId) {
-        return meetingDAO.getMeeting(meetingId);
+        Meeting meeting = meetingDAO.getMeeting(meetingId);
+        Hibernate.initialize(meeting.getEmployees());
+        return meeting;
     }
 
     @Override
@@ -44,4 +48,15 @@ public class MeetingServiceImpl implements MeetingService {
     public Meeting updateMeeting(Meeting meeting) {
         return meetingDAO.updateMeeting(meeting);
     }
+
+    @Override
+    public List<Employee> getUnEnrolledEmployeesService(Integer meetingId){
+        return meetingDAO.getUnEnrolledEmployees(meetingId);
+    }
+
+    @Override
+    public List<Employee> getUnEnrolledEmployeesDetails(Integer meetingId){
+        return meetingDAO.getUnEnrolledEmployeesDetails(meetingId);
+    }
+
 }

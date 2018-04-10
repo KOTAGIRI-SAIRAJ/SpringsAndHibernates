@@ -6,13 +6,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import sb.org.model.AccessCard;
 import sb.org.model.Employee;
+import sb.org.model.Meeting;
 import sb.org.model.Task;
 import sb.org.service.AccessCardService;
 import sb.org.service.EmployeeService;
 import sb.org.service.TaskService;
+import sun.awt.ModalExclude;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -43,9 +46,16 @@ public class EmployeeController {
     }
 
     @RequestMapping(value = "/allEmployees")
-    public ModelAndView listEmployee(ModelAndView model) throws IOException {
-        List<Employee> listEmployee = employeeService.getAllEmployees();
-        model.addObject("listEmployee", listEmployee);
+    public ModelAndView listEmployee(ModelAndView model,HttpServletRequest request) throws IOException {
+        String keyword;
+        if(request.getParameter("search") == null){
+            List<Employee> listEmployee = employeeService.getAllEmployees();
+            model.addObject("listEmployee", listEmployee);
+        }else{
+            keyword = request.getParameter("search");
+            List<Employee> listEmployee = employeeService.searchForEmployee(keyword);
+            model.addObject("listEmployee", listEmployee);
+        }
         model.setViewName("EmployeeList");
         return model;
     }
@@ -59,7 +69,7 @@ public class EmployeeController {
         System.out.println("Task Size "+tasks.size());
         employee.setTasks(tasks);
         model.addObject("employee", employee);
-        model.addObject("FormName", "New");
+        model.addObject("FormName", "Registration Page");
         model.setViewName("EmployeeForm");
         return model;
     }
@@ -78,12 +88,10 @@ public class EmployeeController {
     public ModelAndView editContact(HttpServletRequest request) {
         int employeeId = Integer.parseInt(request.getParameter("id"));
         Employee employee = employeeService.getEmployee(employeeId);
-        /*List<Task> taskList = employee.getTasks();*/
-        System.out.println("Task List "+employee.getTasks().size());
-        /*employee.setTasks(taskList);*/
+        /*System.out.println("Task List "+employee.getTasks().size());*/
         ModelAndView model = new ModelAndView("EmployeeForm");
         model.addObject("employee", employee);
-        model.addObject("FormName", "Edit");
+        model.addObject("FormName", "Employee Profile");
         return model;
     }
 
@@ -91,7 +99,9 @@ public class EmployeeController {
     public ModelAndView deleteEmployee(HttpServletRequest request) {
         int employeeId = Integer.parseInt(request.getParameter("id"));
         /*Employee employee = employeeService.getEmployee(employeeId);
-        employee.setTasks(null);*/
+        System.out.println("deleteEmployee called ");
+        List<Meeting> meetingList = employee.getMeetings();
+        System.out.println(meetingList.size());*/
         employeeService.deleteEmployee(employeeId);
         return new ModelAndView("redirect:/allEmployees");
     }
@@ -118,4 +128,16 @@ public class EmployeeController {
         model.addObject("FormName", "Edit");
         return model;
     }
+
+    /*@RequestMapping(value = "/allEmployees/Search", method = RequestMethod.GET)
+    public ModelAndView searchEmployee(HttpServletRequest request) {
+        System.out.println("searchEmployee Controller ");
+        String keyword = request.getParameter("search");
+        System.out.println("Keyword "+keyword);
+        ModelAndView model = new ModelAndView();
+        List<Employee> listEmployee = employeeService.searchForEmployee(keyword);
+        model.addObject("listEmployee", listEmployee);
+        model.setViewName("EmployeeList");
+        return model;
+    }*/
 }

@@ -14,18 +14,7 @@
 <body>
     <div class="container">
 
-        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-            <a class="navbar-brand">Employee Management System</a>
-            <ul class="navbar-nav">
-                <li class="active"><a href="/"><input type="button" class="btn" style="background-color: #343a40" value="Home"></a></li>
-                <li ><a href="allEmployees"><input type="button" class="btn" style="background-color: #343a40" value="Employees"></a></li>
-                <li ><a href="allTasks"><input type="button" class="btn" style="background-color: #343a40" value="Tasks"></a></li>
-                <li ><a href="allMeetings"><input type="button" class="btn" style="background-color: #343a40" value="Meetings"></a></li>
-                <li ><a href="allAccessCards"><input type="button" class="btn" style="background-color: #343a40" value="Access Cards"></a></li>
-            </ul>
-        </nav>
-
-
+    <jsp:include page="Header.jsp"></jsp:include>
     <%--<nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -40,6 +29,9 @@
             </ul>
         </div>
     </nav>--%>
+    <%--<div class="container">
+        <img src="../pages/maxresdefault.jpg">
+    </div>--%>
         </div>
 </body>
 </html>

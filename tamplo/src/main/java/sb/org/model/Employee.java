@@ -41,7 +41,13 @@ public class Employee {
     @OneToMany(mappedBy="employee",cascade=CascadeType.ALL,fetch = FetchType.EAGER)
     private List<Task> tasks;
 
-    @ManyToMany(mappedBy = "employees", cascade = CascadeType.PERSIST)
+    /*@ManyToMany(mappedBy = "employees", cascade = CascadeType.PERSIST)
+    List<Meeting> meetings= new ArrayList<Meeting>();*/
+
+    @ManyToMany(fetch = FetchType.LAZY,cascade = { CascadeType.PERSIST},targetEntity = Meeting.class)
+    @JoinTable(name="Employee_Meeting", joinColumns={@JoinColumn(name="employee_id",nullable = false,updatable = false)}, inverseJoinColumns = {@JoinColumn(name="meeting_id",nullable = false,updatable = false)},
+            foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT),
+            inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
     List<Meeting> meetings= new ArrayList<Meeting>();
 
     public int getId() {
