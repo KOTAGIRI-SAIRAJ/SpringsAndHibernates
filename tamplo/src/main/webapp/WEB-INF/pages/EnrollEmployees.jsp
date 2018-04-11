@@ -94,33 +94,30 @@
             box-shadow: none !important;
         }
     </style>
+    <script >
+        $(document).ready(function() {
+            $("#UnEnroll").click(function () {
+                var unenroll = $("input[name= 'unenroll']")
+                var unenrollId = new Array();
+                $.each( unenroll, function( index, value ){
+                    if(value.checked){
+                        unenrollId.push(parseInt(value.id))
+                    }
+                });
+                $.get("<c:url value="/unEnrollSelectedEmployees" />",{unenrollId:unenrollId,meetingId:${meeting.id}}, function(data) {
+                    window.location.href = data+"?id="+${meeting.id};
+                });
+
+            })
+        })
+    </script>
 </head>
 <body>
-<%--<div class="container">
-    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-        <a class="navbar-brand">Enroll Employees To ${meeting.meeting_title} meeting</a>
-        <ul class="navbar-nav">
-            <li><a href="/"><input type="button" class="btn" style="background-color: #343a40" value="Home"></a></li>
-            <li class="active"><a href="allMeetings"><input type="button" class="btn" style="background-color: #343a40" value="Meetings"></a></li>
-        </ul>
-    </nav>
-</div>--%>
-<%--<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand">Enroll Employees To ${meeting.meeting_title} meeting</a>
-        </div>
-        <ul class="nav navbar-nav">
-            <li><a href="/">Home</a></li>
-            <li class="active"><a href="allMeeting">Meetings</a></li>
-        </ul>
-    </div>
-</nav>--%>
 <div class="container">
     <jsp:include page="Header.jsp"></jsp:include>
     <div style="margin-top: 25px">
         <form:form action="enrollSelectedEmployees" method="post" modelAttribute="meeting" >
-            <h1>Enrolled Employees</h1>
+            <h1>Enrolled Employees for ${meeting.meeting_title}</h1>
             <table class="table table-bordered table-definition mb-5">
                 <thead class="table-warning ">
                 <tr>
@@ -130,7 +127,7 @@
                     <th>Telephone</th>
                     <th>Salary</th>
                     <th>Department</th>
-                    <%--<th>UnEnroll</th>--%>
+                    <th>UnEnroll</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -142,19 +139,20 @@
                         <td>${emp.telephone}</td>
                         <td>${emp.salary}</td>
                         <td>${emp.department}</td>
-                        <%--<td>
+                        <td>
                             <label class="custom-control custom-checkbox" >
-                                <input type="checkbox" name="unenroll" value="${emp.id}"  class="custom-control-input">
+                                <input type="checkbox" name="unenroll" value="${emp.id}" id="${emp.id}" class="custom-control-input">
                                 <span class="custom-control-indicator"></span>
                             </label>
-                        </td>--%>
+                        </td>
                     </tr>
                 </c:forEach>
 
                 </tbody>
             </table>
-            <%--<a colspan="4" href="unEnrollSelectedEmployees?id=${meeting.id}"><button type="button" class="btn btn-primary" style="float:right;">UnEnroll Employees</button></a>--%>
-            <h1>Not Enrolled</h1>
+            <a colspan="4"><button type="button" id="UnEnroll" class="btn btn-primary" style="float:right;">UnEnroll Employees</button></a>
+            <br/><br/><br/>
+            <h1>Un-Enrolled Employees</h1>
             <table class="table table-bordered table-definition mb-5">
                 <thead class="table-warning ">
                 <tr>
@@ -171,7 +169,7 @@
                 <form:hidden path="id"/>
                 <c:forEach var="employee" items="${employeeList}" varStatus="estatus">
                     <tr>
-                        <td>${estatus.index+1}</td>
+                        <td>${estatus.index + 1}</td>
                         <td>${employee.name}</td>
                         <td>${employee.email}</td>
                         <td>${employee.telephone}</td>
@@ -179,7 +177,7 @@
                         <td>${employee.department}</td>
                         <td>
                             <label class="custom-control custom-checkbox" >
-                                <input type="checkbox" name="enroll" value="${employee.id}"  class="custom-control-input">
+                                <input type="checkbox" name="enroll" id="${employee.id}" value="${employee.id}"  class="custom-control-input">
                                 <span class="custom-control-indicator"></span>
                             </label>
                         </td>

@@ -4,9 +4,7 @@ import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.method.annotation.ModelAndViewMethodReturnValueHandler;
 import sb.org.model.Employee;
@@ -19,9 +17,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class MeetingController {
@@ -122,69 +118,76 @@ public class MeetingController {
     @RequestMapping(value = "/enrollSelectedEmployees",method = RequestMethod.POST)
     private ModelAndView enrollTheSelectedEmployees(@ModelAttribute Meeting meetingObj,HttpServletRequest request){
         int meetingId = meetingObj.getId();
-        System.out.println("Meeting Id "+meetingId);
-        if(request.getParameterValues("enroll") == null) {
+        List<String> EnrolledEmployees = new ArrayList<>();
+        List<String> unEnrolledEmployees = new ArrayList<>();
+
+        if(request.getParameterValues("enroll") == null && request.getParameterValues("unenroll") == null) {
             return new ModelAndView("redirect:/enrollEmployees?id="+meetingId);
         }
-        String checkboxValues[] = request.getParameterValues("enroll");
-        System.out.println("checkboxValues length "+checkboxValues.length);
+        if(request.getParameterValues("enroll") != null) {
+            EnrolledEmployees = Arrays.asList(request.getParameterValues("enroll"));
+        }
+        if(request.getParameterValues("unenroll") != null) {
+            unEnrolledEmployees = Arrays.asList(request.getParameterValues("unenroll"));
+        }
         List<Meeting> meetingList = new ArrayList<>();
         List<Employee> employees = new ArrayList<>();
         Meeting meeting = meetingService.getMeeting(meetingId);
+        List<Employee> enrolledEmployeesList  = meeting.getEmployees();
         meetingList.add(meeting);
-        for (String checkboxValue : checkboxValues) {
-            Employee employee = employeeService.getEmployee(Integer.parseInt(checkboxValue));
+
+        if(unEnrolledEmployees.size() >= 0){
+            for (String eachEnrollEmpId : unEnrolledEmployees) {
+                int counter = 0;
+                for (Employee employee : enrolledEmployeesList) {
+                    if(employee.getId() == Integer.parseInt(eachEnrollEmpId)){
+                        if(enrolledEmployeesList.size() == 1){
+                            enrolledEmployeesList.clear();
+                            counter = -1;
+                            break;
+                        }else{
+                            enrolledEmployeesList.remove(counter);
+                        }
+                    }
+
+
+                    counter++;
+                }
+                if(counter == -1){
+                    break;
+                }
+            }
+        }
+        for (String enrolledEmployee : EnrolledEmployees) {
+            Employee employee = employeeService.getEmployee(Integer.parseInt(enrolledEmployee));
             employee.setMeetings(meetingList);
             employees.add(employee);
         }
-        List<Employee> enrolledEmployees = meeting.getEmployees();
-        enrolledEmployees.addAll(employees);
+        List<Employee> enrolledEmployees = enrolledEmployeesList;
+        if(employees.size() > 0){
+            enrolledEmployees.addAll(employees);
+        }
         meeting.setEmployees(enrolledEmployees);
         meetingService.updateMeeting(meeting);
         return new ModelAndView("redirect:/enrollEmployees?id="+meetingId);
     }
 
-    /*@RequestMapping(value = "/unEnrollSelectedEmployees",method = RequestMethod.GET)
-    private void unEnrollTheSelectedEmployees(HttpServletRequest request){
-
-        int meetingId = Integer.parseInt(request.getParameter("id"));
-        *//*if(request.getParameterValues("unenroll") == null) {
-            return new ModelAndView("redirect:/enrollEmployees?id="+meetingId);
-        }*//*
-        String checkboxValues[] = request.getParameterValues("unenroll");
+    @RequestMapping(value = "/unEnrollSelectedEmployees",method = RequestMethod.GET)
+    public @ResponseBody String unEnrollTheSelectedEmployees(@RequestParam(value="unenrollId[]") int[] unenrollId, @RequestParam Integer meetingId){
         Meeting meeting = meetingService.getMeeting(meetingId);
-        List<Meeting> meetingList = new ArrayList<>();
-        List<Employee> employees = new ArrayList<>();
-        List<Employee> enrolledEmployees = meeting.getEmployees();
-        List<Employee> removedSelectedEnrolledEmployees;
+        List<Employee> employeeList = meeting.getEmployees();
 
-        *//*enrolledEmployees = enrolledEmployees.filter(function( obj ) {
-            return obj.id !== 337;
-        });*//*
-        System.out.println("CheckBox Values length "+checkboxValues.length);
-        System.out.println("Enrolled Employees before delete "+enrolledEmployees.size());
-        for (Employee enrolledEmployee : enrolledEmployees) {
-            for (String checkboxValue : checkboxValues) {
-                Employee employee = employeeService.getEmployee(Integer.parseInt(checkboxValue));
-                if(employee.getId() == enrolledEmployee.getId()){
-                    System.out.println("Matched Employee ID "+employee.getId());
-                    enrolledEmployees.remove(enrolledEmployee);
+        for (int i = 0; i < unenrollId.length; i++) {
+            for (int j = 0; j < employeeList.size(); j++) {
+                Employee employee = employeeList.get(j);
+                if(unenrollId[i] == employee.getId()){
+                    employeeList.remove(employeeList.indexOf(employee));
+                    System.out.println("Removed ");
                 }
             }
         }
-        System.out.println("Enrolled Employees after delete "+enrolledEmployees.size());
-
-        *//*Meeting meeting = meetingService.getMeeting(meetingId);
-        meetingList.add(meeting);
-        for (String checkboxValue : checkboxValues) {
-            Employee employee = employeeService.getEmployee(Integer.parseInt(checkboxValue));
-            employee.setMeetings(meetingList);
-            employees.add(employee);
-        }
-        List<Employee> enrolledEmployees = meeting.getEmployees();
-        enrolledEmployees.addAll(employees);
-        meeting.setEmployees(enrolledEmployees);
-        meetingService.updateMeeting(meeting);*//*
-        *//*return new ModelAndView("redirect:/enrollEmployees?id="+meetingId);*//*
-    }*/
+        meeting.setEmployees(employeeList);
+        meetingService.updateMeeting(meeting);
+        return "/enrollEmployees";
+    }
 }
