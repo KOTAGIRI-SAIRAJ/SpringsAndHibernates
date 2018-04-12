@@ -44,12 +44,11 @@ public class EmployeeController {
 
     @RequestMapping(value = "/allEmployees")
     public ModelAndView listEmployee(ModelAndView model,HttpServletRequest request) throws IOException {
-        String keyword;
         if(request.getParameter("search") == null){
             List<Employee> listEmployee = employeeService.getAllEmployees();
             model.addObject("listEmployee", listEmployee);
         }else{
-            keyword = request.getParameter("search");
+            String keyword = request.getParameter("search");
             List<Employee> listEmployee = employeeService.searchForEmployee(keyword);
             model.addObject("listEmployee", listEmployee);
         }
@@ -58,7 +57,7 @@ public class EmployeeController {
     }
 
     @RequestMapping(value = "/newEmployee")
-    public ModelAndView newContact(ModelAndView model) {
+    public ModelAndView registerEmployee(ModelAndView model) {
         Employee employee = new Employee();
         List<Task> tasks = new ArrayList<>();
         tasks.add(new Task());
@@ -81,7 +80,7 @@ public class EmployeeController {
     }
 
     @RequestMapping(value = "/editEmployee", method = RequestMethod.GET)
-    public ModelAndView editContact(HttpServletRequest request) {
+    public ModelAndView editEmployee(HttpServletRequest request) {
         int employeeId = Integer.parseInt(request.getParameter("id"));
         Employee employee = employeeService.getEmployee(employeeId);
         /*System.out.println("Task List "+employee.getTasks().size());*/
@@ -115,7 +114,7 @@ public class EmployeeController {
         model.setViewName("AccessCardList");
     }*/
 
-    @RequestMapping(value = "/saveCompleteEmployee", method = RequestMethod.GET)
+    /*@RequestMapping(value = "/saveCompleteEmployee", method = RequestMethod.GET)
     public ModelAndView saveCompleteEmployee(HttpServletRequest request) {
         int employeeId = Integer.parseInt(request.getParameter("id"));
         Employee employee = employeeService.getEmployee(employeeId);
@@ -123,7 +122,7 @@ public class EmployeeController {
         model.addObject("employee", employee);
         model.addObject("FormName", "Edit");
         return model;
-    }
+    }*/
 
     /*@RequestMapping(value = "/allEmployees/Search", method = RequestMethod.GET)
     public ModelAndView searchEmployee(HttpServletRequest request) {
