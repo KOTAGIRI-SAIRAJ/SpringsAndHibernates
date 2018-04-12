@@ -8,6 +8,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "employee")
+/*@NamedQueries({ @NamedQuery(name = "getAllEmployeeDetails", query = "from employee") })*/
+@NamedNativeQueries({ @NamedNativeQuery(name = "getAllEmployees",
+        query = "select name from employee") })
 public class Employee {
 
     @Id

@@ -29,9 +29,6 @@ public class EmployeeController {
     @Autowired
      private EmployeeService employeeService;
 
-    @Autowired
-    private AccessCardService accessCardService;
-
     private static final Logger logger = Logger
             .getLogger(EmployeeController.class);
 
@@ -66,7 +63,6 @@ public class EmployeeController {
         List<Task> tasks = new ArrayList<>();
         tasks.add(new Task());
         tasks.add(new Task());
-        System.out.println("Task Size "+tasks.size());
         employee.setTasks(tasks);
         model.addObject("employee", employee);
         model.addObject("FormName", "Registration Page");

@@ -1,8 +1,6 @@
 package sb.org.dao;
 
-import org.hibernate.Criteria;
-import org.hibernate.Hibernate;
-import org.hibernate.SessionFactory;
+import org.hibernate.*;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -24,6 +22,14 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     @Override
     public void addEmployee(Employee employee) {
         employee = setEmployeeToTasks(employee);
+
+        Session session = sessionFactory.getCurrentSession();
+        /*Query query = session.getNamedQuery("getAllEmployeeDetails");
+        List<Employee> NamedQueryemployeeList = query.list();
+        System.out.println("addEmployee without Native"+NamedQueryemployeeList.size());*/
+        Query query =  session.getNamedQuery("getAllEmployees");
+        List<Employee> NativeNamedQueryemployeeList = query.list();
+        System.out.println("addEmployee with Native"+NativeNamedQueryemployeeList.size());
         sessionFactory.getCurrentSession().saveOrUpdate(employee);
     }
 
