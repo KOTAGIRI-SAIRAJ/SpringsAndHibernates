@@ -6,22 +6,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
-import sb.org.model.AccessCard;
+
 import sb.org.model.Employee;
-import sb.org.model.Meeting;
 import sb.org.model.Task;
-import sb.org.service.AccessCardService;
 import sb.org.service.EmployeeService;
-import sb.org.service.TaskService;
-import sun.awt.ModalExclude;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Controller
 public class EmployeeController {
@@ -76,7 +70,10 @@ public class EmployeeController {
         } else {
             employeeService.updateEmployee(employee);
         }
-        return new ModelAndView("redirect:/allEmployees");
+        ModelAndView model = new ModelAndView();
+        model.setViewName("allEmployees");
+        /*return new ModelAndView("redirect:/allEmployees");*/
+        return model;
     }
 
     @RequestMapping(value = "/editEmployee", method = RequestMethod.GET)

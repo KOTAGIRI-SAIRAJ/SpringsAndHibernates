@@ -11,17 +11,22 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 import sb.org.model.AccessCard;
 import sb.org.model.Employee;
 import sb.org.model.Task;
 import sb.org.service.EmployeeService;
+import sun.awt.ModalExclude;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -44,7 +49,6 @@ public class EmployeeTestController {
     public void setup(){
         MockitoAnnotations.initMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(employeeController).build();
-
     }
 
     @Test
@@ -93,18 +97,29 @@ public class EmployeeTestController {
         request.setMethod("POST");
         request.setAttribute("employee",employeeRegistration());
         model.setViewName("allEmployees");
+        Employee employee = employeeRegistration();
+        model = employeeController.saveEmployee(employee);
+        Assert.assertEquals((model),model);
     }
 
-   /* @Test
+    @Test
     public void editEmployee() {
-        request.setParameter("employeeId","346");
-        request.setRequestURI("/editEmployee");
-        request.setMethod("GET");
-        request.setAttribute("employee",employeeRegistration());
-        model.setViewName("EmployeeForm");
+        String employeeId = "346";
+        request.setParameter("id",Integer.toString(346));
         Employee employee = employeeRegistration();
-        Assert.assertEquals(employeeController.editEmployee(request),model);
-    }*/
+        request.setAttribute("employee",employeeRegistration());
+        model = employeeController.editEmployee(request);
+        Assert.assertEquals(model.getViewName(),"EmployeeForm");
+            verify(employeeService,times(1)).getEmployee((anyInt()));
+    }
+
+    @Test
+    public void deleteEmployee() {
+        request.setParameter("id",Integer.toString(346));
+        model = employeeController.deleteEmployee(request);
+        Assert.assertEquals(model.getViewName(),"redirect:/allEmployees");
+            verify(employeeService,times(1)).deleteEmployee((anyInt()));
+    }
 
 
     public List<Employee> employeeList() {

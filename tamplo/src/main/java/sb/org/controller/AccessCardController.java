@@ -39,6 +39,7 @@ public class AccessCardController {
         AccessCard accessCard = accessCardService.getAccessCard(accessCardId);
         List<AccessCard> accessCards = new ArrayList<>();
         accessCards.add(accessCard);
+        System.out.println("Card Holder Name "+accessCard.getCard_holder_name());
         model.addObject("accessCards",accessCards);
         model.setViewName("AccessCardList");
         /*model.setViewName("EmployeeList");*/

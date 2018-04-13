@@ -31,7 +31,7 @@ public class MeetingDAOImpl implements MeetingDAO {
     }
 
     @Override
-    public void deleteTask(Integer meetingId) {
+    public void deleteMeeting(Integer meetingId) {
         Meeting meeting = (Meeting) sessionFactory.getCurrentSession().load(
                 Meeting.class, meetingId);
         if (null != meeting) {

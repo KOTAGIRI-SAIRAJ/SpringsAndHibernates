@@ -77,7 +77,7 @@ public class MeetingController {
     @RequestMapping(value = "/deleteMeeting", method = RequestMethod.GET)
     public ModelAndView deleteMeeting(HttpServletRequest request) {
         int meetingId = Integer.parseInt(request.getParameter("id"));
-        meetingService.deleteTask(meetingId);
+        meetingService.deleteMeeting(meetingId);
         return new ModelAndView("redirect:/allMeetings");
     }
 
@@ -176,7 +176,6 @@ public class MeetingController {
     public @ResponseBody String unEnrollTheSelectedEmployees(@RequestParam(value="unenrollId[]") int[] unenrollId, @RequestParam Integer meetingId){
         Meeting meeting = meetingService.getMeeting(meetingId);
         List<Employee> employeeList = meeting.getEmployees();
-
         for (int i = 0; i < unenrollId.length; i++) {
             for (int j = 0; j < employeeList.size(); j++) {
                 Employee employee = employeeList.get(j);

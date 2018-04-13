@@ -31,8 +31,8 @@ public class MeetingServiceImpl implements MeetingService {
 
     @Override
     @Transactional
-    public void deleteTask(Integer meetingId) {
-        meetingDAO.deleteTask(meetingId);
+    public void deleteMeeting(Integer meetingId) {
+        meetingDAO.deleteMeeting(meetingId);
     }
 
     @Override
