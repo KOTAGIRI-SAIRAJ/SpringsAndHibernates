@@ -10,7 +10,7 @@ public interface AccessCardDAO {
 
     public List<AccessCard> getAllAccessCard();
 
-    public void deleteTask(Integer accessCardId);
+    public void deleteAccessCard(Integer accessCardId);
 
     public AccessCard getAccessCard(int accessCardId);
 

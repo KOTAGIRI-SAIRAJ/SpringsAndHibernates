@@ -11,9 +11,9 @@ public interface MeetingService {
 
     public List<Meeting> getAllMeetings();
 
-    public List<Employee> getUnEnrolledEmployeesService(Integer meetingId);
+    /*public List<Employee> getUnEnrolledEmployeesService(Integer meetingId);
 
-    public List<Employee> getUnEnrolledEmployeesDetails(Integer meetingId);
+    public List<Employee> getUnEnrolledEmployeesDetails(Integer meetingId);*/
 
     public void deleteMeeting(Integer meetingId);
 

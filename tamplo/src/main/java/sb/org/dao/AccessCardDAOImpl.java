@@ -29,7 +29,7 @@ public class AccessCardDAOImpl implements AccessCardDAO {
     }
 
     @Override
-    public void deleteTask(Integer accessCardId) {
+    public void deleteAccessCard(Integer accessCardId) {
         AccessCard accessCard = (AccessCard) sessionFactory.getCurrentSession().load(
                 AccessCard.class, accessCardId);
         if (null != accessCard) {

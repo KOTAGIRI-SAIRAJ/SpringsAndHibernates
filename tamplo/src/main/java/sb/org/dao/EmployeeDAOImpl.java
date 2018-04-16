@@ -22,14 +22,13 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     @Override
     public void addEmployee(Employee employee) {
         employee = setEmployeeToTasks(employee);
-
-        Session session = sessionFactory.getCurrentSession();
-        /*Query query = session.getNamedQuery("getAllEmployeeDetails");
+        /*Session session = sessionFactory.getCurrentSession();
+        Query query = session.getNamedQuery("getAllEmployeeDetails");
         List<Employee> NamedQueryemployeeList = query.list();
-        System.out.println("addEmployee without Native"+NamedQueryemployeeList.size());*/
+        System.out.println("addEmployee without Native"+NamedQueryemployeeList.size());
         Query query =  session.getNamedQuery("getAllEmployees");
         List<Employee> NativeNamedQueryemployeeList = query.list();
-        System.out.println("addEmployee with Native"+NativeNamedQueryemployeeList.size());
+        System.out.println("addEmployee with Native"+NativeNamedQueryemployeeList.size());*/
         sessionFactory.getCurrentSession().saveOrUpdate(employee);
     }
 

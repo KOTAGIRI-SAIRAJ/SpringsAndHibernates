@@ -27,8 +27,8 @@ public class AccessCardServiceImpl implements AccessCardService {
     }
 
     @Override
-    public void deleteTask(Integer accessCardId) {
-        accessCardDAO.deleteTask(accessCardId);
+    public void deleteAccessCard(Integer accessCardId) {
+        accessCardDAO.deleteAccessCard(accessCardId);
     }
 
     @Override

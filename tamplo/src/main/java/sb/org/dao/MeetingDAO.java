@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface MeetingDAO {
 
-    public void addAccessCard(Meeting meeting);
+    public void addMeeting(Meeting meeting);
 
     public List<Meeting> getAllMeetings();
 

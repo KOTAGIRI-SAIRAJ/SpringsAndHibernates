@@ -85,14 +85,14 @@ public class MeetingController {
     public ModelAndView showEmployees(HttpServletRequest request, ModelAndView modal) {
         int employeeId = Integer.parseInt(request.getParameter("id"));
         Employee employee = employeeService.getEmployee(employeeId);
-        List<Meeting> meetingList = employee.getMeetings();
+         List<Meeting> meetingList = employee.getMeetings();
         modal.addObject("EmployeeMeetings",meetingList);
         modal.setViewName("EmployeeMeetings");
         return modal;
     }
 
     @RequestMapping(value = "/enrollEmployees",method = RequestMethod.GET)
-    private ModelAndView getUnEnrolledEmployeesForMeeting(HttpServletRequest request){
+    public ModelAndView getUnEnrolledEmployeesForMeeting(HttpServletRequest request){
         int meetingId = Integer.parseInt(request.getParameter("id"));
         Meeting meeting = meetingService.getMeeting(meetingId);
         List<Employee> enrolledEmployees = meeting.getEmployees();
@@ -101,12 +101,11 @@ public class MeetingController {
         for (Employee enrolledEmployee : enrolledEmployees) {
             enrolledEmployeesWithId.add(enrolledEmployee.getId());
         }
-        if(enrolledEmployeesWithId.size() > 0){
+        if(enrolledEmployeesWithId.size() > 0) {
             employeeList = employeeService.getUnEnrolledEmployees(enrolledEmployeesWithId);
-        }else{
+        } else {
             employeeList = employeeService.getAllEmployees();
         }
-        /*List<Employee> employeeList = meetingService.getUnEnrolledEmployeesDetails(meetingId);*/
         ModelAndView modal = new ModelAndView("EnrollEmployees");
         modal.addObject("meeting",meeting);
         modal.addObject("employees",enrolledEmployees);
@@ -116,7 +115,7 @@ public class MeetingController {
     }
 
     @RequestMapping(value = "/enrollSelectedEmployees",method = RequestMethod.POST)
-    private ModelAndView enrollTheSelectedEmployees(@ModelAttribute Meeting meetingObj,HttpServletRequest request){
+    public ModelAndView enrollTheSelectedEmployees(@ModelAttribute Meeting meetingObj,HttpServletRequest request){
         int meetingId = meetingObj.getId();
         List<String> EnrolledEmployees = new ArrayList<>();
         List<String> unEnrolledEmployees = new ArrayList<>();
@@ -149,8 +148,6 @@ public class MeetingController {
                             enrolledEmployeesList.remove(counter);
                         }
                     }
-
-
                     counter++;
                 }
                 if(counter == -1){
@@ -174,6 +171,8 @@ public class MeetingController {
 
     @RequestMapping(value = "/unEnrollSelectedEmployees",method = RequestMethod.GET)
     public @ResponseBody String unEnrollTheSelectedEmployees(@RequestParam(value="unenrollId[]") int[] unenrollId, @RequestParam Integer meetingId){
+    /*public @ResponseBody String unEnrollTheSelectedEmployees(@RequestParam int[] unenrollId, @RequestParam Integer meetingId){*/
+
         Meeting meeting = meetingService.getMeeting(meetingId);
         List<Employee> employeeList = meeting.getEmployees();
         for (int i = 0; i < unenrollId.length; i++) {
@@ -181,7 +180,6 @@ public class MeetingController {
                 Employee employee = employeeList.get(j);
                 if(unenrollId[i] == employee.getId()){
                     employeeList.remove(employeeList.indexOf(employee));
-                    System.out.println("Removed ");
                 }
             }
         }

@@ -70,10 +70,11 @@ public class EmployeeController {
         } else {
             employeeService.updateEmployee(employee);
         }
-        ModelAndView model = new ModelAndView();
-        model.setViewName("allEmployees");
-        /*return new ModelAndView("redirect:/allEmployees");*/
-        return model;
+        /*ModelAndView model = new ModelAndView();*//*
+        model.setViewName("allEmployees");*/
+        System.out.println("Record Saved");
+        return new ModelAndView("redirect:/allEmployees");
+        /*return model;*/
     }
 
     @RequestMapping(value = "/editEmployee", method = RequestMethod.GET)

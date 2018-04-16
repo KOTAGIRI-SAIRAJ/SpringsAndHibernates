@@ -20,7 +20,7 @@ public class MeetingServiceImpl implements MeetingService {
     @Override
     @Transactional
     public void addMeeting(Meeting meeting) {
-        meetingDAO.addAccessCard(meeting);
+        meetingDAO.addMeeting(meeting);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class MeetingServiceImpl implements MeetingService {
         return meetingDAO.updateMeeting(meeting);
     }
 
-    @Override
+    /*@Override
     public List<Employee> getUnEnrolledEmployeesService(Integer meetingId){
         return meetingDAO.getUnEnrolledEmployees(meetingId);
     }
@@ -57,6 +57,6 @@ public class MeetingServiceImpl implements MeetingService {
     @Override
     public List<Employee> getUnEnrolledEmployeesDetails(Integer meetingId){
         return meetingDAO.getUnEnrolledEmployeesDetails(meetingId);
-    }
+    }*/
 
 }

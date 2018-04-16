@@ -99,7 +99,7 @@ public class EmployeeTestController {
         model.setViewName("allEmployees");
         Employee employee = employeeRegistration();
         model = employeeController.saveEmployee(employee);
-        Assert.assertEquals((model),model);
+        Assert.assertEquals(model.getViewName(),"redirect:/allEmployees");
     }
 
     @Test

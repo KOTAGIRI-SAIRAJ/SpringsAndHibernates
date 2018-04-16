@@ -19,7 +19,7 @@ public class MeetingDAOImpl implements MeetingDAO {
     private SessionFactory sessionFactory;
 
     @Override
-    public void addAccessCard(Meeting meeting) {
+    public void addMeeting(Meeting meeting) {
         sessionFactory.getCurrentSession().saveOrUpdate(meeting);
     }
 
