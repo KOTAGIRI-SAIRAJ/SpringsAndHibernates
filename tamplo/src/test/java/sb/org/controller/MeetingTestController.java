@@ -7,15 +7,21 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
 import sb.org.model.Employee;
 import sb.org.model.Meeting;
 import sb.org.service.EmployeeService;
 import sb.org.service.MeetingService;
+import sun.misc.Request;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -155,15 +161,25 @@ public class MeetingTestController {
         Assert.assertEquals(model.getViewName(),"redirect:/enrollEmployees?id="+meeting.getId());
     }
 
+    @Autowired
+    private WebApplicationContext webApplicationContext;
+
     /*@Test
     public void unEnrollTheSelectedEmployees() {
         int[] unenrollId = {1,23,42};
+        MvcResult result = mockMvc.perform(
+                MockMvcRequestBuilders.post("/unEnrollSelectedEmployees")
+                        .param("un",(int)unenrollId)
+                        .param("password", "Password"))
+                .andReturn();
+        Assert.assertNotNull(result);
+
         Integer meetingId = 24;
         request.setParameter("unenrollId",unenrollId.toString());
         request.setParameter("unenrollId",unenrollId.toString());
         Meeting meeting = createMeeting();
         List<Employee> employeeList = createEmployeeList();
-        *//*for (int i = 0; i < unenrollId.length; i++) {
+        for (int i = 0; i < unenrollId.length; i++) {
             for (int j = 0; j < employeeList.size(); j++) {
                 Employee employee = employeeList.get(j);
                 if(unenrollId[i] == employee.getId()){
@@ -171,13 +187,13 @@ public class MeetingTestController {
                     System.out.println("Removed ");
                 }
             }
-        }*//*
+        }
         meeting.setEmployees(employeeList);
         model.addObject("unenrollId",unenrollId);
-        model = meetingController.unEnrollTheSelectedEmployees(unenrollId,4);
+        //model = meetingController.unEnrollTheSelectedEmployees(unenrollId,4);
         Assert.assertEquals(model.getViewName(),"redirect:/enrollEmployees?id="+meeting.getId());
         meetingService.updateMeeting(meeting);
-        return "/enrollEmployees";
+        //return "/enrollEmployees";
     }*/
 
     public Meeting createMeeting() {

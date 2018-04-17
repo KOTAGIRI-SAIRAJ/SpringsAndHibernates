@@ -52,7 +52,6 @@ public class MeetingDAOImpl implements MeetingDAO {
 
     @Override
     public List<Employee> getUnEnrolledEmployees(Integer meetingId) {
-        System.out.println("Method getUnEnrolledEmployees Called");
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Meeting.class)
                 .add( Restrictions.eq("id", meetingId) )
                 .setProjection(Projections.projectionList()
@@ -63,21 +62,20 @@ public class MeetingDAOImpl implements MeetingDAO {
                 .add( Restrictions.like("id", meetingId) )
                 .createCriteria("employee")
                 .list();*/
-        System.out.println("Employees size() "+criteria.list().size());
         return criteria.list();
     }
 
 
-    @Override
+    /*@Override
     public List<Employee> getUnEnrolledEmployeesDetails(Integer meetingId) {
-       /* System.out.println("getUnEnrolledEmployeesDetails ");
+       *//* System.out.println("getUnEnrolledEmployeesDetails ");
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Meeting.class)
                 .createAlias("meeting", "meeting")
                 .createAlias("meeting.employee", "employee")
                 .add(Restrictions.eq("employee_id", meetingId));
 
         System.out.println("Employees size() "+criteria.list().size());
-        return criteria.list();*/
+        return criteria.list();*//*
        return null;
-    }
+    }*/
 }

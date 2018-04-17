@@ -13,8 +13,6 @@ public interface MeetingDAO {
 
     public List<Employee> getUnEnrolledEmployees(Integer meetingId);
 
-    public List<Employee> getUnEnrolledEmployeesDetails(Integer meetingId);
-
     public void deleteMeeting(Integer meetingId);
 
     public Meeting getMeeting(int meetingId);
