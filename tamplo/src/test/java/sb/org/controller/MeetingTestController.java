@@ -237,7 +237,6 @@ public class MeetingTestController {
         Assert.assertEquals(model.getViewName(),"redirect:/enrollEmployees?id="+meeting.getId());
     }
 
-
     @Test
     public void unEnrollTheSelectedEmployees() {
         int[] unenrollId = {1,23,42};

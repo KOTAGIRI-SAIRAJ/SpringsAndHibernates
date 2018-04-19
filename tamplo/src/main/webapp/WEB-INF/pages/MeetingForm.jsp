@@ -14,26 +14,25 @@
     <div class="container">
     <jsp:include page="Header.jsp"></jsp:include>
     <form:form action="saveMeeting" method="post" modelAttribute="meeting">
-                <table>
-                    <form:hidden path="id"/>
-                    <tr>
-                        <td>Meeting Title:</td>
-                        <td><form:input path="meeting_title" /></td>
-                    </tr>
-                    <tr>
-                         <td>Meeting Duration(in hrs):</td>
-                         <td><form:input path="meeting_dur" /></td>
-                    </tr>
-                    <tr>
-                         <td>Client Name</td>
-                         <td><form:input path="client_name" /></td>
-                    </tr>
-
-                    <tr>
-                        <td colspan="2" align="center"><input type="submit" class="btn btn-primary" value="Save"></td>
-                    </tr>
-                </table>
-                </form:form>
+        <table>
+            <form:hidden path="id"/>
+                <tr>
+                    <td>Meeting Title:</td>
+                    <td><form:input path="meeting_title" /></td>
+                </tr>
+                <tr>
+                    <td>Meeting Duration(in hrs):</td>
+                    <td><form:input path="meeting_dur" /></td>
+                </tr>
+                <tr>
+                    <td>Client Name</td>
+                    <td><form:input path="client_name" /></td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center"><input type="submit" class="btn btn-primary" value="Save"></td>
+                </tr>
+            </table>
+            </form:form>
         </div>
 </body>
 </html>
