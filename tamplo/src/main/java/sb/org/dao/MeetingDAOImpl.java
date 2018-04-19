@@ -26,7 +26,6 @@ public class MeetingDAOImpl implements MeetingDAO {
     @Override
     public List<Meeting> getAllMeetings() {
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Meeting.class);
-        criteria.setMaxResults(10);
         return criteria.list();
     }
 
@@ -34,9 +33,9 @@ public class MeetingDAOImpl implements MeetingDAO {
     public void deleteMeeting(Integer meetingId) {
         Meeting meeting = (Meeting) sessionFactory.getCurrentSession().load(
                 Meeting.class, meetingId);
-        if (null != meeting) {
+        /*if (null != meeting) {*/
             this.sessionFactory.getCurrentSession().delete(meeting);
-        }
+        /*}*/
     }
 
     @Override
@@ -50,20 +49,20 @@ public class MeetingDAOImpl implements MeetingDAO {
         return meeting;
     }
 
-    @Override
+    /*@Override
     public List<Employee> getUnEnrolledEmployees(Integer meetingId) {
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Meeting.class)
                 .add( Restrictions.eq("id", meetingId) )
                 .setProjection(Projections.projectionList()
                         .add(Projections.property("id"), "id"));
 
-                        /*.createCriteria("employee").add(Restrictions.like("name", "%a%"));*/
-        /*List<Employee> employees = sessionFactory.getCurrentSession().createCriteria(Meeting.class)
+                        *//*.createCriteria("employee").add(Restrictions.like("name", "%a%"));*//*
+        *//*List<Employee> employees = sessionFactory.getCurrentSession().createCriteria(Meeting.class)
                 .add( Restrictions.like("id", meetingId) )
                 .createCriteria("employee")
-                .list();*/
+                .list();*//*
         return criteria.list();
-    }
+    }*/
 
 
     /*@Override

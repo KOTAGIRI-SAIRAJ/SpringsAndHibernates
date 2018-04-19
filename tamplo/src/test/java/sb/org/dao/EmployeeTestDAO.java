@@ -15,9 +15,7 @@ import sb.org.model.Task;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 
 public class EmployeeTestDAO {
@@ -32,10 +30,10 @@ public class EmployeeTestDAO {
     private SessionFactory sessionFactory;
 
     @Mock
-    private Session session;
+    Criteria criteria;
 
     @Mock
-    Criteria criteria;
+    private Session session;
 
     @Spy
     List<Employee> employeeList = new ArrayList<>();
@@ -45,6 +43,7 @@ public class EmployeeTestDAO {
         MockitoAnnotations.initMocks(this);
         employeeList = employeeList();
         when(sessionFactory.getCurrentSession()).thenReturn(session);
+        when(session.createCriteria(Employee.class)).thenReturn(criteria);
     }
 
     @Test
@@ -57,17 +56,18 @@ public class EmployeeTestDAO {
         verify(session, atLeastOnce()).saveOrUpdate(employee);
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test
     public void getAllEmployees() {
         Assert.assertNotNull(employeeDAO);
         when(employeeDAOImpl.getAllEmployees()).thenReturn(employeeList);
-        verify(employeeDAOImpl, atLeastOnce()).getAllEmployees();
+        employeeDAOImpl.getAllEmployees();
+        /*verify(employeeDAOImpl, atLeastOnce()).getAllEmployees();*/
+        //doReturn(employeeList).when(employeeDAOImpl.getAllEmployees());
     }
 
     @Test
     public void deleteEmployee() {
         Assert.assertNotNull(employeeDAO);
-        /*employeeDAOImpl.deleteEmployee(1);*/
         session.delete(1);
         employeeDAOImpl.deleteEmployee(1);
         verify(session, atLeastOnce()).delete(1);
@@ -99,12 +99,25 @@ public class EmployeeTestDAO {
     }
 
     @Test(expected = RuntimeException.class)
-    public void searchForEmployee() {
+    public void searchForEmployeeAny() {
         Assert.assertNotNull(employeeDAO);
+        /*when(employeeDAOImpl.searchForEmployee("8142428302")).thenReturn(employeeList);
+        verify(employeeDAOImpl, atLeastOnce()).searchForEmployee("8142428302");*/
         when(employeeDAOImpl.searchForEmployee("keyword")).thenReturn(employeeList);
+        employeeDAOImpl.searchForEmployee("keyword");
         verify(employeeDAOImpl, atLeastOnce()).searchForEmployee("keyword");
-        when(employeeDAOImpl.searchForEmployee("8142428302")).thenReturn(employeeList);
-        verify(employeeDAOImpl, atLeastOnce()).searchForEmployee("8142428302");
+
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void searchForEmployeeSalary() {
+        Assert.assertNotNull(employeeDAO);
+        when(employeeDAOImpl.searchForEmployee("60000")).thenReturn(employeeList);
+        employeeDAOImpl.searchForEmployee("60000");
+        verify(employeeDAOImpl, atLeastOnce()).searchForEmployee("6000");
+        /*when(employeeDAOImpl.searchForEmployee("keyword")).thenReturn(employeeList);
+        verify(employeeDAOImpl, atLeastOnce()).searchForEmployee("keyword");*/
+
     }
 
 

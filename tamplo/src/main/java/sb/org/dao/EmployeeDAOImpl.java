@@ -1,13 +1,10 @@
 package sb.org.dao;
 
 import org.hibernate.*;
-import org.hibernate.criterion.MatchMode;
-import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import sb.org.model.Employee;
-import sb.org.model.Meeting;
 import sb.org.model.Task;
 
 import java.util.Iterator;
@@ -23,7 +20,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     public void addEmployee(Employee employee) {
         employee = setEmployeeToTasks(employee);
         /*Session session = sessionFactory.getCurrentSession();
-        Query query = session.getNamedQuery("getAllEmployeeDetails");
+        Query query = session.getNamedQuery("+  getAllEmployeeDetails");
         List<Employee> NamedQueryemployeeList = query.list();
         System.out.println("addEmployee without Native"+NamedQueryemployeeList.size());
         Query query =  session.getNamedQuery("getAllEmployees");
@@ -35,8 +32,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     @Override
     public List<Employee> getAllEmployees() {
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Employee.class);
-        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
-                .addOrder( Order.desc("name") );
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         return criteria.list();
     }
 
@@ -50,9 +46,9 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         System.out.println("meetingList "+ meetingList.size());
         employee.setMeetings(null);
         sessionFactory.getCurrentSession().update(employee);*/
-        if (null != employee) {
+        /*if (null != employee) {*/
             this.sessionFactory.getCurrentSession().delete(employee);
-        }
+        /*}*/
     }
 
     @Override
@@ -82,8 +78,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         if (keyword.matches("[0-9]+") && keyword.length() > 2 && keyword.length() < 7) {
             int value = Integer.parseInt(keyword);
             criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
-                    .add(Restrictions.eq("salary",value))
-                    .addOrder( Order.desc("name") );
+                    .add(Restrictions.eq("salary",value));
         } else {
             criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
                     .add(Restrictions.or(
@@ -91,8 +86,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
                             (Restrictions.like("telephone","%"+keyword+"%").ignoreCase()),
                             (Restrictions.like("department","%"+keyword+"%").ignoreCase()),
                             (Restrictions.like("email","%"+keyword+"%").ignoreCase())
-                    ))
-                    .addOrder( Order.desc("name") );
+                    ));
         }
         return criteria.list();
     }

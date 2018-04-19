@@ -18,16 +18,6 @@
 </head>
 <body>
     <div class="container">
-    <%--<div class="container">
-        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-            <a class="navbar-brand">Task List</a>
-            <ul class="navbar-nav">
-                <li ><a href="/"><input type="button" class="btn" style="background-color: #343a40" value="Home"></a></li>
-                <li ><a href="allTasks"><input type="button" class="btn" style="background-color: #343a40" value="Tasks"></a></li>
-                <li class="active"><a href="createTask"><input type="button" class="btn" style="background-color: #343a40" value="New Task"></a></li>
-            </ul>
-        </nav>
-    </div>--%>
         <jsp:include page="Header.jsp"></jsp:include>
     <table class="table">
         <thead>

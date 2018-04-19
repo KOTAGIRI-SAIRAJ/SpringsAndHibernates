@@ -31,9 +31,7 @@ import java.util.List;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyObject;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 
 public class MeetingTestController {
@@ -80,6 +78,17 @@ public class MeetingTestController {
         request.setAttribute("meeting",createMeeting());
         model.setViewName("allEmployees");
         Meeting meeting= createMeeting();
+        meeting.setId(10);
+        model = meetingController.saveMeeting(meeting);
+        Assert.assertEquals((model),model);
+    }
+
+    @Test
+    public void saveMeetingWithIdZero() {
+        request.setAttribute("meeting",createMeeting());
+        model.setViewName("allEmployees");
+        Meeting meeting= createMeeting();
+        meeting.setId(0);
         model = meetingController.saveMeeting(meeting);
         Assert.assertEquals((model),model);
     }
@@ -138,63 +147,109 @@ public class MeetingTestController {
         model = meetingController.getUnEnrolledEmployeesForMeeting(request);
         Assert.assertEquals((model.getViewName()),"EnrollEmployees");
         verify(meetingService,times(1)).getMeeting(anyInt());
-        //verify(employeeService,times(1)).getUnEnrolledEmployees(any());
-        //verify(employeeService,times(1)).getAllEmployees();
-        //verify(employeeService,times(1)).getEmployee((anyInt()));
+    }
+
+    @Test
+    public void getUnEnrolledEmployeesForMeetingWithEmpty() {
+        request.setParameter("id",Integer.toString(346));
+        Meeting meeting = new Meeting();
+        meeting.setId(346);
+        meeting.setMeeting_title("SCRUM");
+        meeting.setClient_name("Sairaj");
+        meeting.setEmployees(new ArrayList<>());
+        when(meetingService.getMeeting(meeting.getId())).thenReturn(meeting);
+        List<Employee> enrolledEmployees = createEmployeeList();
+        List enrolledEmployeesWithId = createEmployeeList();
+        List<Employee> employeeList = createEmployeeList();
+        model = meetingController.getUnEnrolledEmployeesForMeeting(request);
+        Assert.assertEquals((model.getViewName()),"EnrollEmployees");
+        verify(meetingService,times(1)).getMeeting(anyInt());
     }
 
     @Test
     public void enrollTheSelectedEmployees(){
         request.setAttribute("meeting",createMeetingWithID());
+
         int meetingId = 346;
         String[] words = {"123","424","214"};
-        request.setAttribute("enroll",words);
-        request.setAttribute("unenroll",words);
-        List<String> EnrolledEmployees = Arrays.asList(words);
-        List<String> unEnrolledEmployees = Arrays.asList(words);
+        /*request.setAttribute("enroll",words);*/
+        request.setParameter("enroll",words);
+        /*request.setAttribute("unenroll",words);*/
+        request.setParameter("unenroll",words);
+
         List<Meeting> meetingList = createMeetingList();
         List<Employee> employees = createEmployeeList();
-        List<Employee> enrolledEmployeesList  = createEmployeeList();
-        List<Employee> enrolledEmployees = createEmployeeList();
+
         Meeting meeting = createMeetingWithID();
+
+        when(meetingService.getMeeting(meeting.getId())).thenReturn(meeting);
+        meeting.setEmployees(createEmployeeList());
+        List<Employee> enrolledEmployeesList  = meeting.getEmployees();
+        //List<Employee> enrolledEmployees = createEmployeeList();
+        List<String> EnrolledEmployees = Arrays.asList(words);
+        List<String> unEnrolledEmployees = Arrays.asList(words);
+
+
+        for (String enrolledEmployee : EnrolledEmployees) {
+
+            Employee employee = enrolledEmployeesList.get(0);
+            employee.setId(Integer.parseInt(enrolledEmployee));
+            when(employeeService.getEmployee(employee.getId())).thenReturn(employee);
+            employee.setMeetings(createMeetingListWithID());
+            employees.add(employee);
+
+        }
         model = meetingController.enrollTheSelectedEmployees(meeting,request);
         Assert.assertEquals(model.getViewName(),"redirect:/enrollEmployees?id="+meeting.getId());
     }
 
-    @Autowired
-    private WebApplicationContext webApplicationContext;
+    @Test
+    public void enrollTheSelectedEmployeesWithOneValue(){
+        request.setAttribute("meeting",createMeetingWithID());
 
-    /*@Test
+        int meetingId = 346;
+        String[] words = {"123","424","214"};
+        request.setParameter("enroll",words);
+
+        request.setParameter("unenroll",words);
+
+        List<Meeting> meetingList = createMeetingList();
+        List<Employee> employees = createEmployeeList();
+
+        Meeting meeting = createMeetingWithID();
+
+        when(meetingService.getMeeting(meeting.getId())).thenReturn(meeting);
+        List<Employee> employeeList =  new ArrayList<>();
+        employeeList.add(employees.get(0));
+        meeting.setEmployees(employeeList);
+        List<Employee> enrolledEmployeesList  = meeting.getEmployees();
+        //List<Employee> enrolledEmployees = createEmployeeList();
+        List<String> EnrolledEmployees = Arrays.asList(words);
+        for (String enrolledEmployee : EnrolledEmployees) {
+            Employee employee = enrolledEmployeesList.get(0);
+            employee.setId(Integer.parseInt(enrolledEmployee));
+            when(employeeService.getEmployee(employee.getId())).thenReturn(employee);
+            employee.setMeetings(createMeetingListWithID());
+            employees.add(employee);
+        }
+        List<String> unEnrolledEmployees = Arrays.asList(words);
+        model = meetingController.enrollTheSelectedEmployees(meeting,request);
+        Assert.assertEquals(model.getViewName(),"redirect:/enrollEmployees?id="+meeting.getId());
+    }
+
+
+    @Test
     public void unEnrollTheSelectedEmployees() {
         int[] unenrollId = {1,23,42};
-        MvcResult result = mockMvc.perform(
-                MockMvcRequestBuilders.post("/unEnrollSelectedEmployees")
-                        .param("un",(int)unenrollId)
-                        .param("password", "Password"))
-                .andReturn();
-        Assert.assertNotNull(result);
-
         Integer meetingId = 24;
-        request.setParameter("unenrollId",unenrollId.toString());
-        request.setParameter("unenrollId",unenrollId.toString());
         Meeting meeting = createMeeting();
+        meeting.setId(24);
+        when(meetingService.getMeeting(meeting.getId())).thenReturn(meeting);
         List<Employee> employeeList = createEmployeeList();
-        for (int i = 0; i < unenrollId.length; i++) {
-            for (int j = 0; j < employeeList.size(); j++) {
-                Employee employee = employeeList.get(j);
-                if(unenrollId[i] == employee.getId()){
-                    employeeList.remove(employeeList.indexOf(employee));
-                    System.out.println("Removed ");
-                }
-            }
-        }
         meeting.setEmployees(employeeList);
-        model.addObject("unenrollId",unenrollId);
-        //model = meetingController.unEnrollTheSelectedEmployees(unenrollId,4);
-        Assert.assertEquals(model.getViewName(),"redirect:/enrollEmployees?id="+meeting.getId());
-        meetingService.updateMeeting(meeting);
-        //return "/enrollEmployees";
-    }*/
+        meetingController.unEnrollTheSelectedEmployees(unenrollId,meetingId);
+        verify(meetingService,times(1)).updateMeeting(any());
+    }
 
     public Meeting createMeeting() {
 

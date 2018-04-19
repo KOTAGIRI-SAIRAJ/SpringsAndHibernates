@@ -135,14 +135,14 @@ public class MeetingController {
         List<Employee> enrolledEmployeesList  = meeting.getEmployees();
         meetingList.add(meeting);
 
-        if(unEnrolledEmployees.size() >= 0){
+        if(unEnrolledEmployees.size() >= 0) {
             for (String eachEnrollEmpId : unEnrolledEmployees) {
                 int counter = 0;
-                for (Employee employee : enrolledEmployeesList) {
+                    for (Employee employee : enrolledEmployeesList) {
                     if(employee.getId() == Integer.parseInt(eachEnrollEmpId)){
-                        if(enrolledEmployeesList.size() == 1){
+                        if(enrolledEmployeesList.size() == 1) {
                             enrolledEmployeesList.clear();
-                            counter = -1;
+                            //counter = -1;
                             break;
                         }else{
                             enrolledEmployeesList.remove(counter);
@@ -150,9 +150,9 @@ public class MeetingController {
                     }
                     counter++;
                 }
-                if(counter == -1){
+                /*if(counter == -1){
                     break;
-                }
+                }*/
             }
         }
         for (String enrolledEmployee : EnrolledEmployees) {
@@ -171,8 +171,6 @@ public class MeetingController {
 
     @RequestMapping(value = "/unEnrollSelectedEmployees",method = RequestMethod.GET)
     public @ResponseBody String unEnrollTheSelectedEmployees(@RequestParam(value="unenrollId[]") int[] unenrollId, @RequestParam Integer meetingId){
-    /*public @ResponseBody String unEnrollTheSelectedEmployees(@RequestParam int[] unenrollId, @RequestParam Integer meetingId){*/
-
         Meeting meeting = meetingService.getMeeting(meetingId);
         List<Employee> employeeList = meeting.getEmployees();
         for (int i = 0; i < unenrollId.length; i++) {
@@ -180,6 +178,7 @@ public class MeetingController {
                 Employee employee = employeeList.get(j);
                 if(unenrollId[i] == employee.getId()){
                     employeeList.remove(employeeList.indexOf(employee));
+
                 }
             }
         }

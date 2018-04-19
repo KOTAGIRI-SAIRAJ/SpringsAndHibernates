@@ -18,16 +18,6 @@
 </head>
 <body>
 <div class="container">
-    <%--<div class="container">
-        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-            <a class="navbar-brand">Access Card</a>
-            <ul class="navbar-nav">
-                <li><a href="/"><input type="button" class="btn" style="background-color: #343a40" value="Home"></a></li>
-                <li ><a href="allEmployees"><input type="button" class="btn" style="background-color: #343a40" value="Employees"></a></li>
-                <li class="active"><a href="allAccessCards"><input type="button" class="btn" style="background-color: #343a40" value="Access Cards"></a></li>
-            </ul>
-        </nav>
-    </div>--%>
     <jsp:include page="Header.jsp" />
     <table class="table">
         <thead>

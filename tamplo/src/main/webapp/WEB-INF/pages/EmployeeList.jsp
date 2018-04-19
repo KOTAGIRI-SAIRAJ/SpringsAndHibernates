@@ -19,7 +19,6 @@
         $(document).ready(function(){
             $("#searchbutton").click(function() {
                 var keyword = $("#searchBar").val();
-                /*window.location.href = window.location.href+ '/Search?search=' + keyword;*/
                 window.location.href = "?search=" + keyword;
             })
         });
@@ -28,17 +27,6 @@
 <body>
 <div class="container">
     <jsp:include page="Header.jsp"></jsp:include>
-    <%--<div class="container">
-        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-            <a class="navbar-brand">Employee List</a>
-            <ul class="navbar-nav">
-                <li><a href="/"><input type="button" class="btn" style="background-color: #343a40" value="Home"></a></li>
-                <li class="active"><a href="allEmployees"><input type="button" class="btn" style="background-color: #343a40" value="Employees"></a></li>
-                <li ><a href="newEmployee"><input type="button" class="btn" style="background-color: #343a40" value="New Employee"></a></li>
-            </ul>
-        </nav>
-    </div>--%>
-
     <table class="table" style="margin-top: 25px">
 
         <thead>

@@ -20,9 +20,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Employee Enrollment Page</title>
     <style type="text/css">
-        /*.table { border: 1px solid #2980B9; }
-        .table thead > tr > th { border-bottom: none; }
-        .table thead > tr > th, .table tbody > tr > th, .table tfoot > tr > th, .table thead > tr > td, .table tbody > tr > td, .table tfoot > tr > td { border: 1px solid #2980B9; }*/
         html {
             font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif;
             font-size: 14px;

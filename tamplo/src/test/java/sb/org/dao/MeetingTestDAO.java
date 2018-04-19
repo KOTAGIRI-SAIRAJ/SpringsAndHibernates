@@ -40,6 +40,7 @@ public class MeetingTestDAO {
         MockitoAnnotations.initMocks(this);
         meetingList = createMeetingList();
         when(sessionFactory.getCurrentSession()).thenReturn(session);
+        when(session.createCriteria(Meeting.class)).thenReturn(criteria);
     }
 
     @Test
@@ -65,8 +66,6 @@ public class MeetingTestDAO {
     @Test
     public void deleteMeeting() {
         Assert.assertNotNull(meetingDAO);
-        /*doThrow(RuntimeException.class).when(meetingDAO).deleteMeeting(1);
-        Mockito.doReturn(criteria).when(session).delete(1);*/
         session.delete(1);
         meetingDAOImpl.deleteMeeting(1);
         verify(session, atLeastOnce()).delete(1);
@@ -85,21 +84,17 @@ public class MeetingTestDAO {
     @Test(expected = RuntimeException.class)
     public void getAllMeetings() {
         Assert.assertNotNull(meetingDAO);
-        /*doThrow(RuntimeException.class).when(meetingDAO).getAllMeetings();
-        when(meetingDAOImpl.getAllMeetings()).thenReturn(meetingList);*/
-        criteria = session.createCriteria(Meeting.class);
-        when(criteria.list()).thenReturn(meetingList);
-        doThrow(RuntimeException.class).when(meetingDAOImpl).getAllMeetings();
+        when(meetingDAOImpl.getAllMeetings()).thenReturn(meetingList);
         verify(meetingDAOImpl, atLeastOnce()).getAllMeetings();
     }
 
-    @Test(expected = RuntimeException.class)
+    /*@Test(expected = RuntimeException.class)
     public void getUnEnrolledEmployees() {
         Assert.assertNotNull(meetingDAO);
         doThrow(RuntimeException.class).when(meetingDAO).getUnEnrolledEmployees(1);
         when(meetingDAOImpl.getUnEnrolledEmployees(1)).thenReturn(employeeList());
         verify(meetingDAOImpl, atLeastOnce()).getUnEnrolledEmployees(1);
-    }
+    }*/
 
 
 

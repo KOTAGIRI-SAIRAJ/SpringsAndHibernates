@@ -15,23 +15,6 @@
     <div class="container">
 
     <jsp:include page="Header.jsp"></jsp:include>
-    <%--<nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand">Employee Management System</a>
-            </div>
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="/">Home</a></li>
-                <li><a href="allEmployees">Employees</a></li>
-                <li><a href="allTasks">Tasks</a></li>
-                <li><a href="allMeetings">Meetings</a></li>
-                <li><a href="allAccessCards">Access Cards</a></li>
-            </ul>
-        </div>
-    </nav>--%>
-    <%--<div class="container">
-        <img src="../pages/maxresdefault.jpg">
-    </div>--%>
         </div>
 </body>
 </html>

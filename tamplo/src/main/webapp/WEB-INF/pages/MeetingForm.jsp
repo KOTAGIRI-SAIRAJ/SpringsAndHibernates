@@ -12,16 +12,6 @@
 </head>
 <body>
     <div class="container">
-    <%--<div class="container">
-        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-            <a class="navbar-brand">${FormName} Meeting</a>
-            <ul class="navbar-nav">
-                <li ><a href="/"><input type="button" class="btn" style="background-color: #343a40" value="Home"></a></li>
-                <li ><a href="allMeetings"><input type="button" class="btn" style="background-color: #343a40" value="Meetings"></a></li>
-                <li class="active"><a href="newMeeting"><input type="button" class="btn" style="background-color: #343a40" value="New Meeting"></a></li>
-            </ul>
-        </nav>
-    </div>--%>
     <jsp:include page="Header.jsp"></jsp:include>
     <form:form action="saveMeeting" method="post" modelAttribute="meeting">
                 <table>

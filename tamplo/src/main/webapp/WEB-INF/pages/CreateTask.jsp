@@ -13,17 +13,6 @@
 <body>
     <div class="container">
     <jsp:include page="Header.jsp"></jsp:include>
-   <%-- <div class="container">
-        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-            <a class="navbar-brand">${FormName} Task</a>
-            <ul class="navbar-nav">
-                <li><a href="/"><input type="button" class="btn" style="background-color: #343a40" value="Home"></a></li>
-                <li ><a href="allEmployees"><input type="button" class="btn" style="background-color: #343a40" value="Employees"></a></li>
-                <li ><a href="allTasks"><input type="button" class="btn" style="background-color: #343a40" value="Tasks"></a></li>
-                <li class="active"><a href="createTask"><input type="button" class="btn" style="background-color: #343a40" value="New Task"></a></li>
-            </ul>
-        </nav>
-    </div>--%>
     <form:form action="saveTask" method="post" modelAttribute="task">
                 <table>
                     <form:hidden path="id"/>

@@ -24,20 +24,6 @@
     </style>
 </head>
 <body>
-
-<%--    <div align="center">--%>
-    <%--<div class="container">
-        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-            <a class="navbar-brand">Employee Registration</a>
-            <ul class="navbar-nav">
-                <li><a href="/"><input type="button" class="btn" style="background-color: #343a40" value="Home"></a></li>
-                <li ><a href="allEmployees"><input type="button" class="btn" style="background-color: #343a40" value="Employees"></a></li>
-                <li class="active"><a href="newEmployee"><input type="button" class="btn" style="background-color: #343a40" value="New Employee"></a></li>
-            </ul>
-        </nav>
-    </div>--%>
-    <%--<jsp:include page="home.jsp"></jsp:include>
-        </div>--%>
 <div class="container">
     <jsp:include page="Header.jsp"></jsp:include>
     <div class="col-md-12 col-sm-12" style="margin-top: 25px">

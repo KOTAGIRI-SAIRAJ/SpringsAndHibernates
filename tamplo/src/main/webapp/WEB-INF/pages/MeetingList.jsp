@@ -21,20 +21,8 @@
 </head>
 <body>
     <div class="container">
-    <%--<div class="container">
-        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-            <a class="navbar-brand">Meeting List</a>
-            <ul class="navbar-nav">
-                <li><a href="/"><input type="button" class="btn" style="background-color: #343a40" value="Home"></a></li>
-                <li class="active"><a href="allMeetings"><input type="button" class="btn" style="background-color: #343a40" value="Meetings"></a></li>
-                <li><a href="newMeeting"><input type="button" class="btn" style="background-color: #343a40" value="New Meetings"></a></li>
-            </ul>
-        </nav>
-    </div>--%>
     <jsp:include page="Header.jsp"></jsp:include>
-    <%--<h1>Meeting List</h1>--%>
             <table border="1" style="margin-top: 25px">
-     
                 <th>Meeting Title</th>
     <th>Meeting Duration</th>
     <th>Meeting Name</th>

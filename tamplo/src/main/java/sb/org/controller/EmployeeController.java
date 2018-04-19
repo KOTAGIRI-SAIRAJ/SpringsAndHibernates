@@ -38,7 +38,7 @@ public class EmployeeController {
 
     @RequestMapping(value = "/allEmployees")
     public ModelAndView listEmployee(ModelAndView model,HttpServletRequest request) throws IOException {
-        if(request.getParameter("search") == null){
+        if(request.getParameter("search") == null || request.getParameter("search") == ""){
             List<Employee> listEmployee = employeeService.getAllEmployees();
             model.addObject("listEmployee", listEmployee);
         }else{

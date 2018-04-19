@@ -34,10 +34,6 @@
                     <a class="dropdown-item" href="allMeetings">Meetings List</a>
                 </div>
             </li>
-            <%--<li ><a href="allEmployees"><input type="button" class="btn" style="background-color: #343a40" value="Employees"></a></li>
-            <li ><a href="allTasks"><input type="button" class="btn" style="background-color: #343a40" value="Tasks"></a></li>
-            <li ><a href="allMeetings"><input type="button" class="btn" style="background-color: #343a40" value="Meetings"></a></li>
-            <li ><a href="allAccessCards"><input type="button" class="btn" style="background-color: #343a40" value="Access Cards"></a></li>--%>
         </ul>
     </nav>
 </div>

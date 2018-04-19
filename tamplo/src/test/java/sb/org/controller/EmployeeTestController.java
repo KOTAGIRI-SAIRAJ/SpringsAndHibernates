@@ -103,6 +103,18 @@ public class EmployeeTestController {
     }
 
     @Test
+    public void saveEmployeeWithZeroId() {
+        request.setRequestURI("/saveEmployee");
+        request.setMethod("POST");
+        request.setAttribute("employee",employeeRegistration());
+        model.setViewName("allEmployees");
+        Employee employee = employeeRegistration();
+        employee.setId(10);
+        model = employeeController.saveEmployee(employee);
+        Assert.assertEquals(model.getViewName(),"redirect:/allEmployees");
+    }
+
+    @Test
     public void editEmployee() {
         String employeeId = "346";
         request.setParameter("id",Integer.toString(346));
