@@ -69,7 +69,9 @@ public class EmployeeTestDAO {
     public void deleteEmployee() {
         Assert.assertNotNull(employeeDAO);
         session.delete(1);
-        employeeDAOImpl.deleteEmployee(1);
+        /*if(employeeDAO != null){*/
+            employeeDAOImpl.deleteEmployee(1);
+        /*}*/
         verify(session, atLeastOnce()).delete(1);
     }
 
@@ -95,6 +97,7 @@ public class EmployeeTestDAO {
     public void getUnEnrolledEmployees() {
         Assert.assertNotNull(employeeDAO);
         when(employeeDAOImpl.getUnEnrolledEmployees(employeeList)).thenReturn(employeeList);
+        employeeDAOImpl.getUnEnrolledEmployees(employeeList);
         verify(employeeDAOImpl, atLeastOnce()).getUnEnrolledEmployees(employeeList);
     }
 
