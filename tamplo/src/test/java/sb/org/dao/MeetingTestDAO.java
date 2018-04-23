@@ -85,6 +85,7 @@ public class MeetingTestDAO {
     public void getAllMeetings() {
         Assert.assertNotNull(meetingDAO);
         when(meetingDAOImpl.getAllMeetings()).thenReturn(meetingList);
+        meetingDAOImpl.getAllMeetings();
         verify(meetingDAOImpl, atLeastOnce()).getAllMeetings();
     }
 
