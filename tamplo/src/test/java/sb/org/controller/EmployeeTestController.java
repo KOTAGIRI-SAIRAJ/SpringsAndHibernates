@@ -3,20 +3,22 @@ package sb.org.controller;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
+import org.mockito.*;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 import sb.org.model.AccessCard;
 import sb.org.model.Employee;
 import sb.org.model.Task;
 import sb.org.service.EmployeeService;
+import sb.org.validator.EmployeeValidator;
 import sun.awt.ModalExclude;
 
 import java.io.IOException;
@@ -36,6 +38,7 @@ public class EmployeeTestController {
     EmployeeService employeeService;
     private MockHttpServletRequest request=new MockHttpServletRequest();
     private MockHttpServletResponse response=new MockHttpServletResponse();
+    private BindingResult bindingResult;
 
     @InjectMocks
     EmployeeController employeeController;
@@ -49,6 +52,7 @@ public class EmployeeTestController {
     public void setup(){
         MockitoAnnotations.initMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(employeeController).build();
+        //Mockito.when(bindingResult.hasErrors()).thenReturn(false);
     }
 
     @Test
@@ -92,25 +96,66 @@ public class EmployeeTestController {
     }
 
     @Test
-    public void saveEmployee() {
+    public void saveEmployeeWithErrors() {
+        Employee employee = employeeRegistration();
+        employee.setName("");
+        employee.setEmail("");
+        employee.setTelephone("");
         request.setRequestURI("/saveEmployee");
         request.setMethod("POST");
         request.setAttribute("employee",employeeRegistration());
         model.setViewName("allEmployees");
+        bindingResult = new BeanPropertyBindingResult(employee,"");
+        ValidationUtils.rejectIfEmpty(bindingResult, "name", "employee.name.empty");
+        ValidationUtils.rejectIfEmpty(bindingResult, "email", "employee.email.empty");
+        model = employeeController.saveEmployee(employee,bindingResult,model);
+        Assert.assertEquals(model.getViewName(),"EmployeeForm");
+    }
+
+    @Test
+    public void saveEmployee() {
         Employee employee = employeeRegistration();
-        model = employeeController.saveEmployee(employee);
+        request.setRequestURI("/saveEmployee");
+        request.setMethod("POST");
+        request.setAttribute("employee",employeeRegistration());
+        model.setViewName("allEmployees");
+        bindingResult = new BeanPropertyBindingResult(employee,"");
+        model = employeeController.saveEmployee(employee,bindingResult,model);
         Assert.assertEquals(model.getViewName(),"redirect:/allEmployees");
     }
 
     @Test
-    public void saveEmployeeWithZeroId() {
+    public void saveEmployeeWithIdAndErrors() {
+        Employee employee = employeeRegistration();
+        employee.setId(10);
+        employee.setName("");
+        employee.setEmail("");
+        employee.setTelephone("");
         request.setRequestURI("/saveEmployee");
         request.setMethod("POST");
         request.setAttribute("employee",employeeRegistration());
         model.setViewName("allEmployees");
+        bindingResult = new BeanPropertyBindingResult(employee,"");
+        ValidationUtils.rejectIfEmpty(bindingResult, "name", "employee.name.empty");
+        ValidationUtils.rejectIfEmpty(bindingResult, "email", "employee.email.empty");
+        model = employeeController.saveEmployee(employee,bindingResult,model);
+        Assert.assertEquals(model.getViewName(),"EmployeeForm");
+    }
+
+    @Test
+    public void saveEmployeeWithId() {
+
         Employee employee = employeeRegistration();
         employee.setId(10);
-        model = employeeController.saveEmployee(employee);
+        employee.setName("sa");
+        employee.setEmail("sa");
+        employee.setTelephone("1");
+        request.setRequestURI("/saveEmployee");
+        request.setMethod("POST");
+        request.setAttribute("employee",employeeRegistration());
+        model.setViewName("allEmployees");
+        bindingResult = new BeanPropertyBindingResult(employee,"");
+        model = employeeController.saveEmployee(employee,bindingResult,model);
         Assert.assertEquals(model.getViewName(),"redirect:/allEmployees");
     }
 

@@ -21,6 +21,9 @@
         .panel-success > .bc-color {
             background: #f5cf8c;
         }
+        .error {
+            color: red;
+        }
     </style>
 </head>
 <body>
@@ -49,14 +52,19 @@
                                         <form:hidden path="id"/>
                                         <label for="name">Name</label>
                                         <form:input path="name" class="form-control input-sm" placeholder="Enter your Name"/>
+                                        <form:errors path="name" cssClass="error" /><br/>
                                         <label for="email">Email</label>
                                         <form:input path="email"  class="form-control input-sm" placeholder="Enter your Email-Id"/>
-                                        <label for="email">Salary</label>
-                                        <form:input path="salary"  class="form-control input-sm" placeholder="Enter your Salary"/>
-                                        <label for="email">Telephone</label>
+                                        <form:errors path="email" cssClass="error" /><br/>
+                                        <label for="salary">Salary</label>
+                                        <form:input type="number" path="salary"  class="form-control input-sm" placeholder="Enter your Salary"/>
+                                        <form:errors path="salary" cssClass="error" /><br/>
+                                        <label for="telephone">Telephone</label>
                                         <form:input path="telephone"  class="form-control input-sm" placeholder="Enter your Mobile Number"/>
-                                        <label for="email">Department</label>
+                                        <form:errors path="telephone" cssClass="error" /><br/>
+                                        <label for="department">Department</label>
                                         <form:input path="department"  class="form-control input-sm" placeholder="Enter your Department"/>
+                                        <form:errors path="department" cssClass="error" /><br/>
                                     </div>
                                 </div>
                             </div>
@@ -75,10 +83,13 @@
                                         <form:hidden path="accessCard.id"/>
                                         <label >Card Holder Name</label>
                                         <form:input path="accessCard.card_holder_name"  class="form-control input-sm" placeholder="Enter your AccessCard Name"/>
+                                        <form:errors path="accessCard.card_holder_name" cssClass="error" /><br/>
                                         <label >Card Holder Department</label>
                                         <form:input path="accessCard.department"  class="form-control input-sm" placeholder="Enter your Department"/>
+                                        <form:errors path="accessCard.department" cssClass="error" /><br/>
                                         <label >Organisation</label>
                                         <form:input path="accessCard.organization"  class="form-control input-sm" placeholder="Enter your Organisation"/>
+                                        <form:errors path="accessCard.organization" cssClass="error" /><br/>
                                     </div>
                                 </div>
                             </div>
@@ -101,8 +112,10 @@
                                                     <form:hidden path="tasks[${eStatus.index}].id"/>
                                                     <label >Task Priority</label>
                                                     <form:input path="tasks[${eStatus.index}].task_priority"  class="form-control input-sm" placeholder="Enter Task Priority"/>
+                                                    <form:errors path="tasks[${eStatus.index}].task_priority" cssClass="error" /><br/>
                                                     <label >Task Description</label>
                                                     <form:input path="tasks[${eStatus.index}].task_desc"  class="form-control input-sm" placeholder="Enter Task Description"/>
+                                                    <form:errors path="tasks[${eStatus.index}].task_desc" cssClass="error" /><br/>
                                                 </div>
                                                 <%--<div class="form-group">
                                                     <label for="gender1" class="col-sm-2 control-label">With Bootstrap:</label>

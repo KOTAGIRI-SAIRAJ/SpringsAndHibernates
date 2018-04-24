@@ -3,6 +3,10 @@ package sb.org.controller;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import sb.org.model.Employee;
 import sb.org.model.Task;
 import sb.org.service.EmployeeService;
+import sb.org.validator.EmployeeValidator;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -22,6 +27,14 @@ public class EmployeeController {
 
     @Autowired
      private EmployeeService employeeService;
+
+    @Autowired
+    private EmployeeValidator employeeValidator;
+
+    @InitBinder("employee")
+    protected void initBinder(WebDataBinder webDataBinder) {
+        webDataBinder.addValidators(employeeValidator);
+    }
 
     private static final Logger logger = Logger
             .getLogger(EmployeeController.class);
@@ -64,15 +77,18 @@ public class EmployeeController {
     }
 
     @RequestMapping(value = "/saveEmployee", method = RequestMethod.POST)
-    public ModelAndView saveEmployee(@ModelAttribute Employee employee) {
+    public ModelAndView saveEmployee(@ModelAttribute("employee") @Validated Employee employee, BindingResult result, ModelAndView model) {
+        model.setViewName("EmployeeForm");
+        if(result.hasErrors()){
+            return model;
+        }
         if (employee.getId() == 0) {
             employeeService.addEmployee(employee);
         } else {
             employeeService.updateEmployee(employee);
         }
-        /*ModelAndView model = new ModelAndView();*//*
+        /*ModelAndView model = new ModelAndView();
         model.setViewName("allEmployees");*/
-        System.out.println("Record Saved");
         return new ModelAndView("redirect:/allEmployees");
         /*return model;*/
     }
@@ -80,7 +96,7 @@ public class EmployeeController {
     @RequestMapping(value = "/editEmployee", method = RequestMethod.GET)
     public ModelAndView editEmployee(HttpServletRequest request) {
         int employeeId = Integer.parseInt(request.getParameter("id"));
-        Employee employee = employeeService.getEmployee(employeeId);
+            Employee employee = employeeService.getEmployee(employeeId);
         /*System.out.println("Task List "+employee.getTasks().size());*/
         ModelAndView model = new ModelAndView("EmployeeForm");
         model.addObject("employee", employee);
